@@ -1044,9 +1044,10 @@
     <div id="copy-feedback" style="font-size:11px; color:var(--match); margin-top:8px; opacity:0; transition:opacity 0.3s;">✓ Link copied!</div>
   </div>
 
-  <div class="btn-row">
-    <button class="btn-primary" onclick="shareNative()">Share Link →</button>
-    <button class="btn-secondary" onclick="goHome()">← Home</button>
+  <div class="btn-row" style="gap:10px;">
+    <button class="btn-primary" onclick="shareNative()">Share →</button>
+    <button class="btn-secondary" onclick="shareEmail()" style="margin-left:0;">✉️ Email</button>
+    <button class="btn-secondary" onclick="goHome()" style="margin-left:0;">← Home</button>
   </div>
 </div>
 
@@ -1293,6 +1294,10 @@ const QUESTIONS = {
     {l:'📡 Contact aliens', r:'🤫 Maybe don\'t'},
     {l:'💊 Enhance your brain', r:'🧘 Train your brain naturally'},
     {l:'🌊 Climate change is solvable', r:'😰 Climate change is irreversible'},
+    {l:'🏫 School should teach coding', r:'🎨 School should teach creativity'},
+    {l:'🌍 Open borders', r:'🛂 Controlled immigration'},
+    {l:'⚛️ Nuclear energy is the answer', r:'☀️ Renewables only'},
+    {l:'📵 Kids should have no phones', r:'📱 Digital literacy from young'},
   ],
 };
 
@@ -1541,20 +1546,22 @@ function copyLink() {
 
 function shareNative() {
   const link = document.getElementById('share-link').value;
-  const cat = currentCat;
-  const subject = encodeURIComponent('Someone would like your opinion on ' + cat + ' topics');
-  const body = encodeURIComponent('Hey! Answer these questions and see how much we have in common:\n\n' + link);
   if (navigator.share) {
     navigator.share({
       title: 'Find out if we\'re alike!',
       text: 'Answer these questions and see how much we have in common:',
       url: link
-    }).catch(() => {
-      window.open('mailto:?subject=' + subject + '&body=' + body);
-    });
+    }).catch(() => copyLink());
   } else {
-    window.open('mailto:?subject=' + subject + '&body=' + body);
+    copyLink();
   }
+}
+
+function shareEmail() {
+  const link = document.getElementById('share-link').value;
+  const subject = encodeURIComponent('Someone would like your opinion on ' + currentCat + ' topics');
+  const body = encodeURIComponent('Hey!\n\nAnswer these questions and see how much we have in common:\n\n' + link);
+  window.open('mailto:?subject=' + subject + '&body=' + body);
 }
 
 function checkMatch() {
