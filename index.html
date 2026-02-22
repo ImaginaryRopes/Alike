@@ -954,6 +954,59 @@
     100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
   }
 
+
+  /* ── AUTH SCREENS ── */
+  .auth-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 32px 24px;
+    z-index: 500;
+  }
+  .auth-screen.hidden { display: none; }
+  .auth-logo { margin-bottom: 8px; }
+  .auth-title { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+  .auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 36px; text-align: center; max-width: 280px; }
+  .auth-form { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }
+  .auth-input {
+    width: 100%; padding: 14px 16px;
+    border: 2px solid rgba(26,20,16,0.2);
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px;
+    background: var(--card); color: var(--ink);
+    outline: none; box-sizing: border-box;
+    transition: border-color 0.15s;
+  }
+  .auth-input:focus { border-color: var(--ink); }
+  .auth-input::placeholder { color: var(--muted); }
+  .auth-btn {
+    margin-top: 8px;
+    padding: 16px;
+    background: var(--ink); color: var(--bg);
+    border: none; border-radius: 100px;
+    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .auth-btn:hover { opacity: 0.85; }
+  .auth-switch {
+    margin-top: 20px; font-size: 13px; color: var(--muted); text-align: center;
+  }
+  .auth-switch span {
+    color: var(--ink); font-weight: 700; cursor: pointer; text-decoration: underline;
+  }
+  .auth-error {
+    color: var(--nomatch); font-size: 12px; text-align: center;
+    min-height: 16px; margin-top: -4px;
+  }
+  .auth-user-badge {
+    position: fixed; top: 16px; left: 16px;
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    color: var(--muted); z-index: 10;
+    letter-spacing: 0.5px;
+  }
+
   /* Transition animations */
   @keyframes card-in {
     0% { opacity: 0; transform: scale(0.94) translateY(20px); }
@@ -969,6 +1022,44 @@
 </style>
 </head>
 <body>
+<div class="auth-user-badge" id="user-badge"></div>
+
+<!-- AUTH: REGISTER / LOGIN -->
+<div class="auth-screen" id="screen-auth">
+  <div class="auth-logo logo-mark" style="width:56px;height:56px;margin-bottom:16px;">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="7" fill="#FFD166"/>
+      <circle cx="26" cy="26" r="7" fill="#FF6B35"/>
+      <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="auth-title">Alike</div>
+
+  <!-- Register form -->
+  <div id="auth-register-view">
+    <div class="auth-sub">Get to know your people better.</div>
+    <div class="auth-form">
+      <input class="auth-input" id="reg-username" type="text" placeholder="Username" autocomplete="username" />
+      <input class="auth-input" id="reg-email" type="email" placeholder="E-Mail" autocomplete="email" />
+      <input class="auth-input" id="reg-password" type="password" placeholder="Password" autocomplete="new-password" />
+      <div class="auth-error" id="reg-error"></div>
+      <button class="auth-btn" onclick="doRegister()">Create account →</button>
+    </div>
+    <div class="auth-switch">Already have an account? <span onclick="showLogin()">Log in</span></div>
+  </div>
+
+  <!-- Login form -->
+  <div id="auth-login-view" style="display:none;">
+    <div class="auth-sub">Welcome back.</div>
+    <div class="auth-form">
+      <input class="auth-input" id="login-email" type="email" placeholder="E-Mail" autocomplete="email" />
+      <input class="auth-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+      <div class="auth-error" id="login-error"></div>
+      <button class="auth-btn" onclick="doLogin()">Log in →</button>
+    </div>
+    <div class="auth-switch">No account yet? <span onclick="showRegister()">Register</span></div>
+  </div>
+</div>
 
 <!-- WELCOME SCREEN -->
 <div class="screen" id="screen-welcome">
@@ -1004,11 +1095,13 @@
 <div class="screen hidden" id="screen-quiz">
   <div class="quiz-header">
     <button class="quiz-back-btn" id="quiz-back-btn" onclick="goBack()">←</button>
-    <div class="quiz-cat" id="quiz-cat-label">✨ Lifestyle</div>
+    <div style="flex:1; margin: 0 10px;">
+      <div class="quiz-cat" id="quiz-cat-label" style="margin-bottom:6px;">✨ Lifestyle</div>
+      <div class="progress-bar" style="margin-bottom:0;">
+        <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+      </div>
+    </div>
     <div class="quiz-counter" id="quiz-counter">1 / 10</div>
-  </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill" style="width:10%"></div>
   </div>
 
   <div class="card-stage">
@@ -1072,7 +1165,6 @@
 
   <div class="btn-row" style="gap:10px;">
     <button class="btn-primary" onclick="shareNative()">Share →</button>
-    <button class="btn-secondary" onclick="shareEmail()" style="margin-left:0;">✉️ Email</button>
     <button class="btn-secondary" onclick="goHome()" style="margin-left:0;">← Home</button>
   </div>
 </div>
@@ -1403,6 +1495,7 @@ let card;
 // ========== INITIALIZATION ==========
 
 window.onload = function() {
+  checkAuth();
   const params = new URLSearchParams(window.location.search);
   const cat = params.get('cat');
   const qenc = params.get('q');
@@ -1992,7 +2085,7 @@ function closePanel(id) {
 // ========== MATCHES PANEL ==========
 
 // Save match to history after quiz completes
-function saveMatchToHistory(match, pct, friendName) {
+function saveMatchToHistory(match, pct, friendName, matchKey) {
   try {
     const history = JSON.parse(localStorage.getItem('match_history') || '[]');
     history.unshift({
@@ -2003,6 +2096,7 @@ function saveMatchToHistory(match, pct, friendName) {
       questions: match.questions,
       personA: match.personA,
       personB: match.personB,
+      matchKey: matchKey || '',
     });
     localStorage.setItem('match_history', JSON.stringify(history.slice(0, 50)));
   } catch(e) {}
@@ -2050,7 +2144,7 @@ function openMatchDetail(historyIdx) {
   const history = JSON.parse(localStorage.getItem('match_history') || '[]');
   const m = history[historyIdx];
   if (!m || !m.questions) return;
-  currentMatchData = { category: m.cat, questions: m.questions, personA: m.personA, personB: m.personB };
+  currentMatchData = { category: m.cat, questions: m.questions, personA: m.personA, personB: m.personB, _fromHistory: true };
   closePanel('panel-matches');
   setTimeout(() => showResultsForBoth(currentMatchData), 300);
 }
@@ -2160,13 +2254,110 @@ const _origShowResults = showResultsForBoth;
 window.showResultsForBoth = function(match) {
   currentMatchData = match;
   _origShowResults(match);
-  setTimeout(() => {
-    const pct = parseInt(document.getElementById('match-pct').textContent) || 0;
-    saveMatchToHistory(match, pct, 'Friend');
-    document.getElementById('matches-badge').textContent =
-      JSON.parse(localStorage.getItem('match_history') || '[]').length;
-  }, 100);
+  // Only save if this is a new match (not reopened from history)
+  if (!match._fromHistory) {
+    setTimeout(() => {
+      const pct = parseInt(document.getElementById('match-pct').textContent) || 0;
+      // Dedup: use encoded questions as unique key
+      const matchKey = (match.personA || []).join('') + '_' + (match.personB || []).join('') + '_' + match.category;
+      const history = JSON.parse(localStorage.getItem('match_history') || '[]');
+      const alreadyExists = history.some(h => h.matchKey === matchKey);
+      if (!alreadyExists) {
+        const currentUser = getCurrentUser(); saveMatchToHistory(match, pct, currentUser ? currentUser.username : 'Me', matchKey);
+      }
+      document.getElementById('matches-badge').textContent = 
+        JSON.parse(localStorage.getItem('match_history') || '[]').length;
+    }, 100);
+  }
 };
+// ========== AUTH ==========
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem('alike_users') || '{}'); } catch(e) { return {}; }
+}
+function getCurrentUser() {
+  try { return JSON.parse(localStorage.getItem('alike_current_user') || 'null'); } catch(e) { return null; }
+}
+function setCurrentUser(user) {
+  localStorage.setItem('alike_current_user', JSON.stringify(user));
+  updateUserBadge();
+}
+
+function updateUserBadge() {
+  const user = getCurrentUser();
+  const badge = document.getElementById('user-badge');
+  if (badge) badge.textContent = user ? user.username : '';
+}
+
+function showLogin() {
+  document.getElementById('auth-register-view').style.display = 'none';
+  document.getElementById('auth-login-view').style.display = '';
+  document.getElementById('login-error').textContent = '';
+}
+function showRegister() {
+  document.getElementById('auth-login-view').style.display = 'none';
+  document.getElementById('auth-register-view').style.display = '';
+  document.getElementById('reg-error').textContent = '';
+}
+
+function doRegister() {
+  const username = document.getElementById('reg-username').value.trim();
+  const email = document.getElementById('reg-email').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value;
+  const errEl = document.getElementById('reg-error');
+
+  if (!username || username.length < 2) { errEl.textContent = 'Username must be at least 2 characters.'; return; }
+  if (!email.includes('@')) { errEl.textContent = 'Please enter a valid e-mail.'; return; }
+  if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+
+  const users = getUsers();
+  if (users[email]) { errEl.textContent = 'This e-mail is already registered.'; return; }
+
+  users[email] = { username, email, password };
+  localStorage.setItem('alike_users', JSON.stringify(users));
+  setCurrentUser({ username, email });
+  enterApp();
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+
+  const users = getUsers();
+  const user = users[email];
+  if (!user) { errEl.textContent = 'No account found for this e-mail.'; return; }
+  if (user.password !== password) { errEl.textContent = 'Incorrect password.'; return; }
+
+  setCurrentUser({ username: user.username, email });
+  enterApp();
+}
+
+function enterApp() {
+  document.getElementById('screen-auth').classList.add('hidden');
+  updateUserBadge();
+}
+
+function checkAuth() {
+  const user = getCurrentUser();
+  if (user) {
+    document.getElementById('screen-auth').classList.add('hidden');
+    updateUserBadge();
+  }
+  // else auth screen stays visible (it's shown by default)
+}
+
+
+function doLogout() {
+  if (confirm('Log out of Alike?')) {
+    localStorage.removeItem('alike_current_user');
+    document.getElementById('screen-auth').classList.remove('hidden');
+    showRegister();
+    closePanel('panel-settings');
+    closeDrawer();
+  }
+}
+
 </script>
 <!-- ── BURGER BUTTON ── -->
 <button class="burger-btn" id="burger-btn" onclick="toggleDrawer()">
@@ -2201,7 +2392,7 @@ window.showResultsForBoth = function(match) {
     </div>
 
     <div class="drawer-item" onclick="navTo('matches')">
-      <div class="drawer-icon">🔥</div>
+      <div class="drawer-icon">✅</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Matches</div>
         <div class="drawer-item-sub">Your match history</div>
@@ -2236,7 +2427,7 @@ window.showResultsForBoth = function(match) {
 <div class="panel-screen" id="panel-matches">
   <div class="panel-header">
     <button class="panel-back" onclick="closePanel('panel-matches')">←</button>
-    <div class="panel-title">🔥 Matches</div>
+    <div class="panel-title">✅ Matches</div>
   </div>
   <div class="panel-body" id="matches-body">
     <div class="empty-state">
@@ -2307,12 +2498,12 @@ window.showResultsForBoth = function(match) {
       <div class="settings-item">
         <div class="settings-item-icon">👤</div>
         <div class="settings-item-label">Display Name</div>
-        <div class="settings-item-value">You</div>
+        <div class="settings-item-value" id="settings-username">You</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">🗑️</div>
-        <div class="settings-item-label">Clear Match History</div>
-        <div class="settings-item-value" style="color:var(--nomatch);">Clear</div>
+        <div class="settings-item-icon">🚪</div>
+        <div class="settings-item-label">Log out</div>
+        <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="doLogout()">→</div>
       </div>
     </div>
     <div class="settings-section">
