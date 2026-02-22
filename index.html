@@ -1094,9 +1094,8 @@
 
 <!-- QUIZ SCREEN -->
 <div class="screen hidden" id="screen-quiz">
-  <div class="quiz-header" style="padding: 16px 4px 12px;">
+  <div class="quiz-header" style="padding: 12px 4px 8px;">
     <button class="quiz-back-btn" id="quiz-back-btn" onclick="goBack()">←</button>
-    <div class="quiz-counter" id="quiz-counter" style="margin-left:auto;">1 / 10</div>
   </div>
 
   <div class="card-stage">
@@ -1105,17 +1104,18 @@
       <div class="swipe-hint right" id="hint-right">That →</div>
       <div class="swipe-hint up" id="hint-up">↑ Skip</div>
 
-      <!-- Category + progress inside card -->
-      <div style="width:100%; margin-bottom:16px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+      <!-- Category + progress + counter inside card, flush to top -->
+      <div style="width:100%; position:absolute; top:0; left:0; right:0; padding:14px 20px 12px; border-bottom: 1px solid rgba(26,20,16,0.07);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:7px;">
           <div class="quiz-cat" id="quiz-cat-label">✨ Lifestyle</div>
+          <div class="quiz-counter" id="quiz-counter" style="font-size:12px; padding:3px 10px;">1 / 20</div>
         </div>
-        <div class="progress-bar" style="margin-bottom:0;">
-          <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+        <div class="progress-bar" style="margin-bottom:0; height:3px;">
+          <div class="progress-fill" id="progress-fill" style="width:5%"></div>
         </div>
       </div>
 
-      <div class="card-label">What do you prefer?</div>
+      <div class="card-label" style="margin-top:32px;">What do you prefer?</div>
       <div class="options-row">
         <div class="opt" id="opt-left" onclick="answerClick('left')">
           <span class="opt-emoji" id="opt-left-emoji">🌅</span>
@@ -1706,28 +1706,28 @@ function copyLink() {
   setTimeout(() => feedback.style.opacity = '0', 2000);
 }
 
-function shareNative() {
+function buildMailtoLink() {
   const link = document.getElementById('share-link').value;
   const subject = encodeURIComponent('Someone wants your opinion on ' + currentCat + ' topics');
   const body = encodeURIComponent('Hey!\n\nAnswer these questions and see how much we have in common:\n\n' + link);
+  return 'mailto:?subject=' + subject + '&body=' + body;
+}
+
+function shareNative() {
+  const link = document.getElementById('share-link').value;
   if (navigator.share) {
     navigator.share({
       title: 'Someone wants your opinion on ' + currentCat + ' topics',
       text: 'Answer these questions and see how much we have in common:',
       url: link
-    }).catch(() => {
-      window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
-    });
+    }).catch(() => { window.open(buildMailtoLink(), '_blank'); });
   } else {
-    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+    window.open(buildMailtoLink(), '_blank');
   }
 }
 
 function shareEmail() {
-  const link = document.getElementById('share-link').value;
-  const subject = encodeURIComponent('Someone would like your opinion on ' + currentCat + ' topics');
-  const body = encodeURIComponent('Hey!\n\nAnswer these questions and see how much we have in common:\n\n' + link);
-  window.open('mailto:?subject=' + subject + '&body=' + body);
+  window.open(buildMailtoLink(), '_blank');
 }
 
 function checkMatch() {
@@ -2133,18 +2133,29 @@ function renderMatches() {
       <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 4px 8px;">
         ${person}
       </div>
-      ${matches.map(m => `
+      ${matches.map(m => {
+        // Recompute pct from stored answers if available (fixes old wrong values)
+        let displayPct = m.pct;
+        if (m.personA && m.personB) {
+          let ms = 0, t = 0;
+          m.personA.forEach((a, i) => {
+            const b = m.personB[i];
+            if (a !== 'skip' && b !== 'skip') { t++; if (a === b) ms++; }
+          });
+          displayPct = t > 0 ? Math.round(ms/t*100) : 0;
+        }
+        return `
         <div class="match-list-item" onclick="openMatchDetail(${m.historyIdx})">
           <div class="match-cat-icon">${CATEGORY_EMOJI[m.cat] || '🎯'}</div>
           <div class="match-info">
             <div class="match-info-title">${m.cat}</div>
             <div class="match-info-sub">${m.date}</div>
           </div>
-          <div class="match-pct-badge" style="color:${m.pct>=60?'var(--match)':m.pct>=40?'var(--ink)':'var(--accent)'}">${m.pct}%</div>
+          <div class="match-pct-badge" style="color:${displayPct>=60?'var(--match)':displayPct>=40?'var(--ink)':'var(--accent)'}">${displayPct}%</div>
           <button onclick="event.stopPropagation();openChatForPerson('${person}')" 
             style="width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(26,20,16,0.2);background:transparent;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">💬</button>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
   `).join('');
 }
