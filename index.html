@@ -1118,12 +1118,10 @@ const QUESTIONS = {
     {l:'🗣️ Talk it out', r:'✍️ Write it out'},
     {l:'👯 Social butterfly', r:'🐢 Homebody'},
     {l:'👟 Sneakers', r:'👠 Dressed up'},
-    {l:'👕 Casual style', r:'👔 Put-together style'},
     {l:'🖤 Black always', r:'🌈 Color lover'},
-    {l:'👜 Designer bag', r:'🎒 Backpack'},
     {l:'📏 Fitted clothes', r:'🛋️ Oversized'},
-    {l:'🧴 Skincare routine', r:'💧 Soap & water'},
     {l:'🛒 Shop often', r:'👚 Wear what you have'},
+    {l:'🔕 Phone on silent', r:'🔔 Notifications on'},
   ],
   Food: [
     {l:'🍳 Cooking', r:'📱 Ordering in'},
@@ -1165,7 +1163,9 @@ const QUESTIONS = {
     {l:'🎂 Big birthday fuss', r:'🙂 Low-key birthday'},
     {l:'💑 Best friends first', r:'⚡ Chemistry first'},
     {l:'🔓 Share everything', r:'🔐 Keep some things private'},
-    {l:'😴 Early to bed together', r:'🌙 Different sleep schedules ok'},
+    {l:'😴 Same sleep schedule', r:'🌙 Different schedules ok'},
+    {l:'🥂 Mark every anniversary', r:'📆 Just another day'},
+    {l:'🤳 Post about us online', r:'🙅 Keep it offline'},
   ],
   Music: [
     {l:'🎸 Rock', r:'🎤 Pop'},
@@ -1184,6 +1184,10 @@ const QUESTIONS = {
     {l:'🪗 Acoustic', r:'⚡ Electronic'},
     {l:'🎤 Follow the artist', r:'🎚️ Follow the producer'},
     {l:'🎻 One instrument', r:'🎸 Full band'},
+    {l:'🌍 World music', r:'🏠 Local music'},
+    {l:'😭 Sad songs', r:'😄 Feel-good songs'},
+    {l:'🎪 Festival', r:'🎭 Intimate venue'},
+    {l:'🎵 Spotify', r:'🎶 Apple Music'},
   ],
   Travel: [
     {l:'🏖️ Beach', r:'⛰️ Mountains'},
@@ -1202,6 +1206,10 @@ const QUESTIONS = {
     {l:'🛥️ Cruise', r:'🚐 Road trip'},
     {l:'🌏 New destination every time', r:'🔁 Return to favorites'},
     {l:'🌅 Sunrise hike', r:'🌃 Nightlife explorer'},
+    {l:'📖 Read about it before', r:'🚶 Explore on arrival'},
+    {l:'🛁 Luxury accommodation', r:'🛏️ Budget & spend elsewhere'},
+    {l:'🤝 Make friends abroad', r:'👫 Travel bubble only'},
+    {l:'🎒 Backpacker', r:'🧳 Comfort traveler'},
   ],
   Culture: [
     {l:'😂 Comedy', r:'😰 Thriller'},
@@ -1219,9 +1227,11 @@ const QUESTIONS = {
     {l:'📰 Read the news', r:'🎙️ Hear the news'},
     {l:'📖 Physical books', r:'📱 E-reader'},
     {l:'🎨 Contemporary art', r:'🏛️ Classical art'},
-    {l:'🌍 Foreign films', r:'🇺🇸 Domestic films'},
+    {l:'🌍 Foreign films', r:'🏠 Domestic films'},
     {l:'✍️ Fiction', r:'📋 Non-fiction'},
     {l:'🎪 Go to an exhibition', r:'🏠 Watch a doc instead'},
+    {l:'🃏 Board games', r:'🕹️ Video games'},
+    {l:'🎬 Director fan', r:'⭐ Actor fan'},
   ],
   Sports: [
     {l:'⚽ Football', r:'🏀 Basketball'},
@@ -1240,6 +1250,10 @@ const QUESTIONS = {
     {l:'📊 Stats & tactics', r:'❤️ Pure passion'},
     {l:'🏟️ Stadium atmosphere', r:'📺 Couch & snacks'},
     {l:'🥤 Energy drink', r:'💧 Just water'},
+    {l:'👟 Train every day', r:'🛋️ Train when I feel like it'},
+    {l:'🏅 Enter competitions', r:'🙅 Never compete'},
+    {l:'🤸 Stretch & warm up', r:'⚡ Jump straight in'},
+    {l:'🎽 Proper kit', r:'👕 Whatever fits'},
   ],
   Values: [
     {l:'🔒 Security', r:'🌊 Freedom'},
@@ -1247,7 +1261,7 @@ const QUESTIONS = {
     {l:'👨‍👩‍👧 Family first', r:'🧍 Self first'},
     {l:'💼 Career driven', r:'⏸️ Work to live'},
     {l:'💰 Financial success', r:'😊 Personal happiness'},
-    {l:'🌱 Environment matters most', r:'📈 Progress matters most'},
+    {l:'🌱 Environment first', r:'📈 Progress first'},
     {l:'🤝 Loyalty above all', r:'🔓 Honesty above all'},
     {l:'🧠 Head', r:'❤️ Heart'},
     {l:'📜 Tradition', r:'🆕 Innovation'},
@@ -1258,6 +1272,10 @@ const QUESTIONS = {
     {l:'💪 Self-reliance', r:'🤲 Community'},
     {l:'🔬 Science & reason', r:'🌌 Intuition & spirit'},
     {l:'📣 Speak your mind', r:'🤫 Choose your battles'},
+    {l:'⚡ Move fast, fix later', r:'🐢 Get it right first time'},
+    {l:'🎭 Principles over pragmatism', r:'🔧 Pragmatism wins'},
+    {l:'🧒 Kids need structure', r:'🌈 Kids need freedom'},
+    {l:'💊 Duty to be healthy', r:'🍕 My body my choice'},
   ],
   People: [
     {l:'👯 Many friends', r:'💎 Few close ones'},
@@ -1273,9 +1291,13 @@ const QUESTIONS = {
     {l:'🗣️ Advice giver', r:'👂 Listener'},
     {l:'🌍 International circle', r:'🏘️ Local community'},
     {l:'📱 Always reachable', r:'🔕 Respond when I can'},
-    {l:'🤝 Colleague = friend', r:'📂 Keep work & life separate'},
+    {l:'🤝 Colleague can become friend', r:'📂 Keep work & life separate'},
     {l:'😶 Need time to open up', r:'😊 Open book immediately'},
     {l:'🥂 Celebrate everything', r:'🙂 Low-key by default'},
+    {l:'🎭 Friend group hangout', r:'☕ One on one'},
+    {l:'🤳 Share life online', r:'🔒 Keep it private'},
+    {l:'💸 Split everything equally', r:'🎁 Whoever earns more pays more'},
+    {l:'🧳 Some things I do alone', r:'👫 Everything together'},
   ],
   Future: [
     {l:'🤖 AI will save us', r:'⚠️ AI is dangerous'},
@@ -1299,7 +1321,7 @@ const QUESTIONS = {
     {l:'⚛️ Nuclear energy is the answer', r:'☀️ Renewables only'},
     {l:'📵 Kids should have no phones', r:'📱 Digital literacy from young'},
   ],
-};
+}
 
 // All real categories for Random/Popular
 const ALL_CATEGORIES = ['Lifestyle','Food','Love','Music','Travel','Culture','Sports','Values','People','Future'];
