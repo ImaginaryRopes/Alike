@@ -861,12 +861,37 @@
     scrollbar-width: thin;
   }
   .result-item {
-    display: grid; grid-template-columns: 1fr 28px 1fr;
+    display: grid; grid-template-columns: 1fr 28px 1fr 32px;
     align-items: center;
-    padding: 10px 16px;
+    padding: 10px 14px;
     border-bottom: 1px solid rgba(26,20,16,0.06);
     gap: 8px;
   }
+  .result-chat-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px solid rgba(26,20,16,0.2);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .result-chat-btn:hover { background: var(--ink); border-color: var(--ink); }
+  .quiz-back-btn {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    border: 2px solid rgba(26,20,16,0.15);
+    background: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s;
+    opacity: 0; pointer-events: none;
+  }
+  .quiz-back-btn.visible { opacity: 1; pointer-events: all; }
+  .quiz-back-btn:hover { border-color: var(--ink); }
   .result-item:last-child { border-bottom: none; }
   .result-a { text-align: right; font-size: 13px; font-weight: 500; color: var(--ink); }
   .result-b { text-align: left; font-size: 13px; font-weight: 500; color: var(--ink); }
@@ -978,6 +1003,7 @@
 <!-- QUIZ SCREEN -->
 <div class="screen hidden" id="screen-quiz">
   <div class="quiz-header">
+    <button class="quiz-back-btn" id="quiz-back-btn" onclick="goBack()">←</button>
     <div class="quiz-cat" id="quiz-cat-label">✨ Lifestyle</div>
     <div class="quiz-counter" id="quiz-counter">1 / 10</div>
   </div>
@@ -1365,6 +1391,7 @@ let questions = [];
 let currentIdx = 0;
 let myAnswers = [];
 let matchId = null;
+let currentMatchData = null; // stores last match for chat context
 let isPersonB = false;
 
 // Drag state
@@ -1450,6 +1477,15 @@ function renderQuestion() {
   document.getElementById('quiz-counter').textContent = (currentIdx+1) + ' / ' + questions.length;
   document.getElementById('progress-fill').style.width = ((currentIdx+1)/questions.length*100) + '%';
 
+  // Show/hide back button
+  const backBtn = document.getElementById('quiz-back-btn');
+  if (currentIdx > 0) backBtn.classList.add('visible');
+  else backBtn.classList.remove('visible');
+
+  // Reset opts
+  document.getElementById('opt-left').className = 'opt';
+  document.getElementById('opt-right').className = 'opt';
+
   // Reset hints
   document.getElementById('hint-left').textContent = '← ' + lText.split(' ').slice(-1)[0];
   document.getElementById('hint-right').textContent = rText.split(' ').slice(-1)[0] + ' →';
@@ -1476,7 +1512,6 @@ function parseOption(str) {
 
 function answer(choice) {
   myAnswers.push(choice);
-
   animateCardOut(choice, () => {
     currentIdx++;
     if (currentIdx >= questions.length) {
@@ -1485,6 +1520,13 @@ function answer(choice) {
       renderQuestion();
     }
   });
+}
+
+function goBack() {
+  if (currentIdx <= 0 || myAnswers.length === 0) return;
+  myAnswers.pop();
+  currentIdx--;
+  renderQuestion();
 }
 
 function animateCardOut(direction, cb) {
@@ -1656,11 +1698,12 @@ function showResultsForBoth(match) {
 
   // Results list
   const list = document.getElementById('results-list');
-  list.innerHTML = resultItems.map(item => `
+  list.innerHTML = resultItems.map((item, i) => `
     <div class="result-item">
       <div class="result-a${item.status === 'match' ? ' winner' : ''}">${item.meText}</div>
       <div class="result-dot dot-${item.status}"></div>
       <div class="result-b${item.status === 'match' ? ' winner' : ''}">${item.friendText}</div>
+      <button class="result-chat-btn" onclick="openChatFromResult(${i})" title="Start a conversation about this">💬</button>
     </div>
   `).join('');
 
@@ -1949,14 +1992,23 @@ function closePanel(id) {
 // ========== MATCHES PANEL ==========
 
 // Save match to history after quiz completes
-function saveMatchToHistory(cat, pct, friendLabel) {
+function saveMatchToHistory(match, pct, friendName) {
   try {
     const history = JSON.parse(localStorage.getItem('match_history') || '[]');
-    history.unshift({ cat, pct, friend: friendLabel || 'Friend', date: new Date().toLocaleDateString() });
+    history.unshift({
+      cat: match.category,
+      pct,
+      friend: friendName || 'Friend',
+      date: new Date().toLocaleDateString(),
+      questions: match.questions,
+      personA: match.personA,
+      personB: match.personB,
+    });
     localStorage.setItem('match_history', JSON.stringify(history.slice(0, 50)));
   } catch(e) {}
 }
 
+// Render matches grouped by person
 function renderMatches() {
   const body = document.getElementById('matches-body');
   const history = JSON.parse(localStorage.getItem('match_history') || '[]');
@@ -1964,16 +2016,43 @@ function renderMatches() {
     body.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-title">No matches yet</div><div class="empty-state-sub">Complete a quiz and share your link to see your first match here!</div></div>`;
     return;
   }
-  body.innerHTML = history.map((m, i) => `
-    <div class="match-list-item" onclick="openChatFromMatch(${i})">
-      <div class="match-cat-icon">${CATEGORY_EMOJI[m.cat] || '🎯'}</div>
-      <div class="match-info">
-        <div class="match-info-title">${m.cat}</div>
-        <div class="match-info-sub">with ${m.friend} · ${m.date}</div>
+
+  // Group by friend name
+  const byPerson = {};
+  history.forEach((m, i) => {
+    const key = m.friend || 'Friend';
+    if (!byPerson[key]) byPerson[key] = [];
+    byPerson[key].push({ ...m, historyIdx: i });
+  });
+
+  body.innerHTML = Object.entries(byPerson).map(([person, matches]) => `
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 4px 8px;">
+        ${person}
       </div>
-      <div class="match-pct-badge">${m.pct}%</div>
+      ${matches.map(m => `
+        <div class="match-list-item" onclick="openMatchDetail(${m.historyIdx})">
+          <div class="match-cat-icon">${CATEGORY_EMOJI[m.cat] || '🎯'}</div>
+          <div class="match-info">
+            <div class="match-info-title">${m.cat}</div>
+            <div class="match-info-sub">${m.date}</div>
+          </div>
+          <div class="match-pct-badge" style="color:${m.pct>=60?'var(--match)':m.pct>=40?'var(--ink)':'var(--accent)'}">${m.pct}%</div>
+          <button onclick="event.stopPropagation();openChatForPerson('${person}')" 
+            style="width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(26,20,16,0.2);background:transparent;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">💬</button>
+        </div>
+      `).join('')}
     </div>
   `).join('');
+}
+
+function openMatchDetail(historyIdx) {
+  const history = JSON.parse(localStorage.getItem('match_history') || '[]');
+  const m = history[historyIdx];
+  if (!m || !m.questions) return;
+  currentMatchData = { category: m.cat, questions: m.questions, personA: m.personA, personB: m.personB };
+  closePanel('panel-matches');
+  setTimeout(() => showResultsForBoth(currentMatchData), 300);
 }
 
 // ========== MESSAGES PANEL ==========
@@ -1982,7 +2061,7 @@ function renderMessages() {
   const body = document.getElementById('messages-body');
   const convos = JSON.parse(localStorage.getItem('conversations') || '[]');
   if (convos.length === 0) {
-    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💌</div><div class="empty-state-title">No messages yet</div><div class="empty-state-sub">After matching with a friend, start a chat from your Matches!</div></div>`;
+    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💌</div><div class="empty-state-title">No messages yet</div><div class="empty-state-sub">Tap 💬 next to any match result to start chatting!</div></div>`;
     return;
   }
   body.innerHTML = convos.map((c, i) => `
@@ -1990,48 +2069,67 @@ function renderMessages() {
       <div class="msg-avatar">${c.avatar || '😊'}</div>
       <div class="msg-info">
         <div class="msg-name">${c.name}</div>
-        <div class="msg-preview">${c.messages[c.messages.length-1]?.text || 'Say hi!'}</div>
+        <div class="msg-preview">${c.lastMsg || 'Say hi!'}</div>
       </div>
-      <div class="msg-time">${c.messages[c.messages.length-1]?.time || ''}</div>
+      <div class="msg-time">${c.lastTime || ''}</div>
     </div>
   `).join('');
 }
 
 let currentConvoIdx = null;
 
-function openChatFromMatch(matchIdx) {
-  closePanel('panel-matches');
-  const history = JSON.parse(localStorage.getItem('match_history') || '[]');
-  const match = history[matchIdx];
-  if (!match) return;
-  
-  // Find or create conversation
+function getOrCreateConvo(personName, context) {
   const convos = JSON.parse(localStorage.getItem('conversations') || '[]');
-  let idx = convos.findIndex(c => c.matchRef === matchIdx);
+  let idx = convos.findIndex(c => c.name === personName);
   if (idx < 0) {
-    convos.push({ name: match.friend, avatar: '😊', matchRef: matchIdx, matchPct: match.pct, matchCat: match.cat, messages: [] });
+    convos.push({ name: personName, avatar: '😊', messages: [], lastMsg: '', lastTime: '', ...context });
     idx = convos.length - 1;
     localStorage.setItem('conversations', JSON.stringify(convos));
   }
+  return idx;
+}
+
+function openChatForPerson(personName) {
+  const idx = getOrCreateConvo(personName, {});
+  closePanel('panel-matches');
   setTimeout(() => openChat(idx), 300);
 }
 
-function openChat(idx) {
+// Opens chat pre-filled with a question context message
+function openChatFromResult(questionIdx) {
+  if (!currentMatchData) return;
+  const q = currentMatchData.questions[questionIdx];
+  if (!q) return;
+  const history = JSON.parse(localStorage.getItem('match_history') || '[]');
+  const friendName = history[0]?.friend || 'Friend';
+  const idx = getOrCreateConvo(friendName, { matchCat: currentMatchData.category });
+  currentConvoIdx = idx;
+  openChat(idx, q);
+}
+
+function openChat(idx, prefillQuestion) {
   const convos = JSON.parse(localStorage.getItem('conversations') || '[]');
   const c = convos[idx];
   if (!c) return;
   currentConvoIdx = idx;
-  
+
   document.getElementById('chat-name').textContent = c.name;
   document.getElementById('chat-avatar').textContent = c.avatar || '😊';
-  document.getElementById('chat-match-info').textContent = (c.matchPct || '?') + '% match · ' + (c.matchCat || '');
-  
+  document.getElementById('chat-match-info').textContent = c.matchCat ? (c.matchPct || '?') + '% match · ' + c.matchCat : '';
+
   const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML = c.messages.length ? c.messages.map(m => `
-    <div class="chat-bubble ${m.from === 'me' ? 'me' : 'them'}">${m.text}</div>
-  `).join('') : '<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">Say hi! 👋</div>';
+  msgs.innerHTML = c.messages.length
+    ? c.messages.map(m => `<div class="chat-bubble ${m.from === 'me' ? 'me' : 'them'}">${m.text}</div>`).join('')
+    : '<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">Say hi! 👋</div>';
   msgs.scrollTop = msgs.scrollHeight;
-  
+
+  // Pre-fill input if coming from a result row
+  if (prefillQuestion) {
+    const [, lText] = parseOption(prefillQuestion.l);
+    const [, rText] = parseOption(prefillQuestion.r);
+    document.getElementById('chat-input').value = `"${lText} or ${rText}?" — what do you think?`;
+  }
+
   openPanel('panel-chat');
 }
 
@@ -2039,31 +2137,33 @@ function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text || currentConvoIdx === null) return;
-  
+
   const convos = JSON.parse(localStorage.getItem('conversations') || '[]');
   const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
   convos[currentConvoIdx].messages.push({ from: 'me', text, time: now });
+  convos[currentConvoIdx].lastMsg = text;
+  convos[currentConvoIdx].lastTime = now;
   localStorage.setItem('conversations', JSON.stringify(convos));
   input.value = '';
-  
+
   const msgs = document.getElementById('chat-messages');
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble me';
   bubble.textContent = text;
+  if (msgs.querySelector('[style*="Say hi"]')) msgs.innerHTML = '';
   msgs.appendChild(bubble);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-// Hook into showResultsForBoth to save match history
+// Hook into showResultsForBoth to save match history and store currentMatchData
 const _origShowResults = showResultsForBoth;
 window.showResultsForBoth = function(match) {
+  currentMatchData = match;
   _origShowResults(match);
-  // Save after a tick so pct is computed
   setTimeout(() => {
-    const pctEl = document.getElementById('match-pct');
-    const pct = parseInt(pctEl.textContent) || 0;
-    saveMatchToHistory(match.category, pct, 'Friend');
-    document.getElementById('matches-badge').textContent = 
+    const pct = parseInt(document.getElementById('match-pct').textContent) || 0;
+    saveMatchToHistory(match, pct, 'Friend');
+    document.getElementById('matches-badge').textContent =
       JSON.parse(localStorage.getItem('match_history') || '[]').length;
   }, 100);
 };
