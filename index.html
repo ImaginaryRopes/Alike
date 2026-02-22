@@ -1714,12 +1714,14 @@ function buildMailtoLink() {
 }
 
 function shareNative() {
-  const link = document.getElementById('share-link').value;
-  if (navigator.share) {
+  // navigator.share on desktop (Mac) doesn't pass subject to mail client
+  // Only use it on real mobile touch devices
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (isMobile && navigator.share) {
     navigator.share({
       title: 'Someone wants your opinion on ' + currentCat + ' topics',
-      text: 'Answer these questions and see how much we have in common:',
-      url: link
+      text: 'Answer these questions and see how much we have in common:\n',
+      url: document.getElementById('share-link').value
     }).catch(() => { window.open(buildMailtoLink(), '_blank'); });
   } else {
     window.open(buildMailtoLink(), '_blank');
@@ -2384,6 +2386,15 @@ function checkAuth() {
 }
 
 
+function clearMatchHistory() {
+  if (confirm('Clear all match history?')) {
+    localStorage.removeItem('match_history');
+    localStorage.removeItem('conversations');
+    document.getElementById('matches-badge').textContent = '';
+    closePanel('panel-settings');
+  }
+}
+
 function doLogout() {
   if (confirm('Log out of Alike?')) {
     localStorage.removeItem('alike_current_user');
@@ -2544,6 +2555,11 @@ function doLogout() {
         <div class="settings-item-icon">🚪</div>
         <div class="settings-item-label">Log out</div>
         <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="doLogout()">→</div>
+      </div>
+      <div class="settings-item">
+        <div class="settings-item-icon">🗑️</div>
+        <div class="settings-item-label">Clear Match History</div>
+        <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="clearMatchHistory()">Clear</div>
       </div>
     </div>
     <div class="settings-section">
