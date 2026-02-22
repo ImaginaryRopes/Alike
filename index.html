@@ -1351,19 +1351,14 @@ let card;
 window.onload = function() {
   const params = new URLSearchParams(window.location.search);
   const cat = params.get('cat');
-  const qdata = params.get('qdata');
+  const qenc = params.get('q');
   const answersA = params.get('a');
   const answersB = params.get('b');
 
-  if (cat && qdata) {
+  if (cat && qenc) {
     isPersonB = !!answersA && !answersB;
     currentCat = cat;
-
-    try {
-      questions = JSON.parse(decodeURIComponent(atob(qdata)));
-    } catch(e) {
-      questions = [];
-    }
+    questions = decodeQuestions(qenc, cat);
 
     if (answersA && answersB) {
       const match = {
@@ -1475,43 +1470,59 @@ function animateCardOut(direction, cb) {
   setTimeout(cb, 380);
 }
 
+// Encode questions as compact index strings e.g. "foo3_lov1f_tra7"
+function encodeQuestions(qs) {
+  const catMap = {};
+  Object.keys(QUESTIONS).forEach(k => { catMap[k] = k.slice(0,3).toLowerCase(); });
+  return qs.map(q => {
+    const cat = q._cat || currentCat;
+    const key = catMap[cat] || cat.slice(0,3).toLowerCase();
+    const srcList = QUESTIONS[cat] || [];
+    let idx = srcList.findIndex(o => (o.l === q.l && o.r === q.r) || (o.l === q.r && o.r === q.l));
+    if (idx < 0) idx = 0;
+    const original = srcList[idx];
+    const flipped = original && original.l !== q.l ? 'f' : '';
+    return key + idx + flipped;
+  }).join('_');
+}
+
+function decodeQuestions(encoded, fallbackCat) {
+  const catMap = {};
+  Object.keys(QUESTIONS).forEach(k => { catMap[k.slice(0,3).toLowerCase()] = k; });
+  return encoded.split('_').map(part => {
+    const m = part.match(/^([a-z]{3})(\d+)(f?)$/);
+    if (!m) return null;
+    const cat = catMap[m[1]] || fallbackCat;
+    const idx = parseInt(m[2]);
+    const flipped = m[3] === 'f';
+    const q = QUESTIONS[cat] && QUESTIONS[cat][idx];
+    if (!q) return null;
+    return flipped ? {l: q.r, r: q.l, _cat: cat} : {...q, _cat: cat};
+  }).filter(Boolean);
+}
+
 function finishQuiz() {
   if (isPersonB) {
     const params = new URLSearchParams(window.location.search);
     const answersStr = myAnswers.map(a => a[0]).join('');
     params.set('b', answersStr);
-
     const cat = params.get('cat');
     const answersA = params.get('a');
-
-    let questionsData;
-    try {
-      questionsData = JSON.parse(decodeURIComponent(atob(params.get('qdata'))));
-    } catch(e) {
-      questionsData = questions;
-    }
-
+    const questionsData = decodeQuestions(params.get('q') || '', cat);
     const match = {
       category: cat,
       questions: questionsData,
       personA: answersA.split('').map(c => c === 'l' ? 'left' : c === 'r' ? 'right' : 'skip'),
       personB: answersStr.split('').map(c => c === 'l' ? 'left' : c === 'r' ? 'right' : 'skip')
     };
-
     window.history.replaceState({}, '', '?' + params.toString());
     showResultsForBoth(match);
-
   } else {
-    // Person A — encode questions as base64 (always, simplest & most reliable)
     const answersStr = myAnswers.map(a => a[0]).join('');
     const params = new URLSearchParams();
     params.set('cat', currentCat);
     params.set('a', answersStr);
-
-    // Safe base64 encode that handles unicode/emoji
-    const encoded = btoa(encodeURIComponent(JSON.stringify(questions)));
-    params.set('qdata', encoded);
-
+    params.set('q', encodeQuestions(questions));
     const shareUrl = window.location.origin + window.location.pathname + '?' + params.toString();
     document.getElementById('share-link').value = shareUrl;
     show('screen-share');
@@ -1521,9 +1532,8 @@ function finishQuiz() {
 function copyLink() {
   const input = document.getElementById('share-link');
   input.select();
-  input.setSelectionRange(0, 99999); // Mobile
+  input.setSelectionRange(0, 99999);
   document.execCommand('copy');
-  
   const feedback = document.getElementById('copy-feedback');
   feedback.style.opacity = '1';
   setTimeout(() => feedback.style.opacity = '0', 2000);
@@ -1531,14 +1541,19 @@ function copyLink() {
 
 function shareNative() {
   const link = document.getElementById('share-link').value;
+  const cat = currentCat;
+  const subject = encodeURIComponent('Someone would like your opinion on ' + cat + ' topics');
+  const body = encodeURIComponent('Hey! Answer these questions and see how much we have in common:\n\n' + link);
   if (navigator.share) {
     navigator.share({
       title: 'Find out if we\'re alike!',
       text: 'Answer these questions and see how much we have in common:',
       url: link
-    }).catch(() => copyLink());
+    }).catch(() => {
+      window.open('mailto:?subject=' + subject + '&body=' + body);
+    });
   } else {
-    copyLink();
+    window.open('mailto:?subject=' + subject + '&body=' + body);
   }
 }
 
