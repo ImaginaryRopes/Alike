@@ -666,6 +666,32 @@
     outline: none;
   }
   .chat-input:focus { border-color: var(--ink); }
+  .edit-q-item {
+    background: var(--card);
+    border: 1.5px solid rgba(26,20,16,0.12);
+    border-radius: 14px;
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .edit-q-input {
+    width: 100%; padding: 7px 10px;
+    border: 1.5px solid rgba(26,20,16,0.15);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: var(--bg); color: var(--ink);
+    outline: none; box-sizing: border-box;
+  }
+  .edit-q-input:focus { border-color: var(--ink); }
+  .edit-q-row { display: flex; gap: 6px; align-items: center; }
+  .edit-q-label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; width: 14px; flex-shrink:0; }
+  .edit-q-save {
+    margin-top: 4px; padding: 6px 14px;
+    background: var(--ink); color: var(--bg);
+    border: none; border-radius: 100px;
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    cursor: pointer; align-self: flex-end;
+  }
+
   .chat-send {
     width: 40px; height: 40px;
     border-radius: 50%;
@@ -1595,9 +1621,13 @@ function renderQuestion() {
   const [lEmoji, lText] = parseOption(q.l);
   const [rEmoji, rText] = parseOption(q.r);
 
-  document.getElementById('opt-left-emoji').textContent = lEmoji;
+  const leftEmoji = document.getElementById('opt-left-emoji');
+  const rightEmoji = document.getElementById('opt-right-emoji');
+  leftEmoji.textContent = lEmoji;
+  leftEmoji.style.display = (showEmojis && lEmoji) ? 'block' : 'none';
   document.getElementById('opt-left-text').textContent = lText;
-  document.getElementById('opt-right-emoji').textContent = rEmoji;
+  rightEmoji.textContent = rEmoji;
+  rightEmoji.style.display = (showEmojis && rEmoji) ? 'block' : 'none';
   document.getElementById('opt-right-text').textContent = rText;
   document.getElementById('quiz-counter').textContent = (currentIdx+1) + ' / ' + questions.length;
   document.getElementById('progress-fill').style.width = ((currentIdx+1)/questions.length*100) + '%';
@@ -1625,6 +1655,15 @@ function renderQuestion() {
   card.classList.add('card-animate-in');
 
   setupDrag();
+}
+
+let showEmojis = true;
+
+function toggleEmojis(btn) {
+  btn.classList.toggle('on');
+  showEmojis = btn.classList.contains('on');
+  localStorage.setItem('show_emojis', showEmojis ? '1' : '0');
+  if (questions.length > 0 && currentIdx < questions.length) renderQuestion();
 }
 
 function parseOption(str) {
@@ -2047,9 +2086,10 @@ function submitNewQuestion() {
     saved[cat].push(newQ);
     localStorage.setItem('custom_questions', JSON.stringify(saved));
   } catch(e) {}
-  // Inject as next question in active quiz if quiz is running
+  // Inject as next question, trim from end to keep total at 20
   if (questions.length > 0 && currentIdx < questions.length) {
     questions.splice(currentIdx + 1, 0, newQ);
+    if (questions.length > 20) questions.splice(20, questions.length - 20);
   }
   closeNewQuestionModal();
   showToast('Question added — comes up next! 🎉');
@@ -2064,12 +2104,20 @@ function showToast(msg) {
   setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2200);
 }
 
-// Load custom questions on startup
+// Load custom questions and edits on startup
 (function loadCustomQuestions() {
   try {
     const saved = JSON.parse(localStorage.getItem('custom_questions') || '{}');
     Object.keys(saved).forEach(cat => {
       if (QUESTIONS[cat]) QUESTIONS[cat].push(...saved[cat]);
+    });
+    const edits = JSON.parse(localStorage.getItem('question_edits') || '{}');
+    Object.keys(edits).forEach(cat => {
+      if (QUESTIONS[cat]) {
+        Object.keys(edits[cat]).forEach(i => {
+          if (QUESTIONS[cat][i]) QUESTIONS[cat][i] = { ...QUESTIONS[cat][i], ...edits[cat][i] };
+        });
+      }
     });
   } catch(e) {}
 })();
@@ -2413,6 +2461,13 @@ function checkAuth() {
     updateUserBadge();
   }
   // else auth screen stays visible (it's shown by default)
+  // Load emoji preference
+  const savedEmoji = localStorage.getItem('show_emojis');
+  if (savedEmoji === '0') {
+    showEmojis = false;
+    const toggle = document.getElementById('emoji-toggle');
+    if (toggle) toggle.classList.remove('on');
+  }
 }
 
 
@@ -2459,6 +2514,45 @@ function doChangePassword() {
   localStorage.setItem('alike_users', JSON.stringify(users));
   document.getElementById('screen-auth').classList.add('hidden');
   showToast('Password updated! ✅');
+}
+
+function openQuestionEditor() {
+  closePanel('panel-settings');
+  setTimeout(() => {
+    renderEditList();
+    openPanel('panel-edit-questions');
+  }, 300);
+}
+
+function renderEditList() {
+  const cat = document.getElementById('edit-q-cat').value;
+  const qs = QUESTIONS[cat] || [];
+  const list = document.getElementById('edit-q-list');
+  list.innerHTML = qs.map((q, i) => {
+    const lVal = q.l.replace(/"/g, '&quot;');
+    const rVal = q.r.replace(/"/g, '&quot;');
+    return `<div class="edit-q-item">
+      <div class="edit-q-row"><span class="edit-q-label">A</span>
+      <input class="edit-q-input" id="eq-${i}-l" value="${lVal}" /></div>
+      <div class="edit-q-row"><span class="edit-q-label">B</span>
+      <input class="edit-q-input" id="eq-${i}-r" value="${rVal}" /></div>
+      <button class="edit-q-save" onclick="saveEditedQuestion('${cat}',${i})">Save</button>
+    </div>`;
+  }).join('');
+}
+
+function saveEditedQuestion(cat, idx) {
+  const l = document.getElementById('eq-' + idx + '-l').value.trim();
+  const r = document.getElementById('eq-' + idx + '-r').value.trim();
+  if (!l || !r) return;
+  QUESTIONS[cat][idx] = { ...QUESTIONS[cat][idx], l, r };
+  try {
+    const edits = JSON.parse(localStorage.getItem('question_edits') || '{}');
+    if (!edits[cat]) edits[cat] = {};
+    edits[cat][idx] = { l, r };
+    localStorage.setItem('question_edits', JSON.stringify(edits));
+  } catch(e) {}
+  showToast('Saved ✅');
 }
 
 function clearMatchHistory() {
@@ -2619,12 +2713,22 @@ function doLogout() {
         <div class="settings-item-label">Sound Effects</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
       </div>
+      <div class="settings-item">
+        <div class="settings-item-icon">😀</div>
+        <div class="settings-item-label">Show Emojis</div>
+        <button class="settings-toggle on" id="emoji-toggle" onclick="toggleEmojis(this)"></button>
+      </div>
     </div>
     <div class="settings-section">
       <div class="settings-item">
         <div class="settings-item-icon">👤</div>
         <div class="settings-item-label">Display Name</div>
         <div class="settings-item-value" id="settings-username">You</div>
+      </div>
+      <div class="settings-item" style="cursor:pointer;" onclick="openQuestionEditor()">
+        <div class="settings-item-icon">✏️</div>
+        <div class="settings-item-label">Edit Questions</div>
+        <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item" style="cursor:pointer;" onclick="openChangePassword()">
         <div class="settings-item-icon">🔑</div>
@@ -2654,6 +2758,31 @@ function doLogout() {
         <div class="settings-item-value">→</div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── QUESTION EDITOR PANEL ── -->
+<div class="panel-screen" id="panel-edit-questions">
+  <div class="panel-header">
+    <button class="panel-back" onclick="closePanel('panel-edit-questions')">←</button>
+    <div class="panel-title">✏️ Edit Questions</div>
+  </div>
+  <div class="panel-body">
+    <div style="margin-bottom:12px;">
+      <select class="modal-cat-select" id="edit-q-cat" onchange="renderEditList()" style="width:100%;padding:10px 12px;border-radius:12px;border:2px solid rgba(26,20,16,0.2);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--card);">
+        <option value="Lifestyle">✨ Lifestyle</option>
+        <option value="Food">🍕 Food</option>
+        <option value="Love">💘 Love</option>
+        <option value="Music">🎵 Music</option>
+        <option value="Travel">✈️ Travel</option>
+        <option value="Culture">🎭 Culture</option>
+        <option value="Sports">⚽ Sports</option>
+        <option value="Values">🧭 Values</option>
+        <option value="People">🤝 People</option>
+        <option value="Future">🚀 Future</option>
+      </select>
+    </div>
+    <div id="edit-q-list" style="display:flex;flex-direction:column;gap:10px;"></div>
   </div>
 </div>
 
