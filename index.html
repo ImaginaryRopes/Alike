@@ -1002,10 +1002,12 @@
     min-height: 16px; margin-top: -4px;
   }
   .auth-user-badge {
-    position: fixed; top: 16px; left: 16px;
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
     font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
     color: var(--muted); z-index: 10;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   /* Transition animations */
@@ -1059,6 +1061,31 @@
       <button class="auth-btn" onclick="doLogin()">Log in →</button>
     </div>
     <div class="auth-switch">No account yet? <span onclick="showRegister()">Register</span></div>
+    <div class="auth-switch" style="margin-top:8px;">Forgot password? <span onclick="showForgotPassword()">Reset it</span></div>
+  </div>
+
+  <!-- Forgot password -->
+  <div id="auth-forgot-view" style="display:none;">
+    <div class="auth-sub">Enter your e-mail and we'll show your password.</div>
+    <div class="auth-form">
+      <input class="auth-input" id="forgot-email" type="email" placeholder="E-Mail" />
+      <div class="auth-error" id="forgot-error"></div>
+      <div id="forgot-result" style="font-size:13px;color:var(--ink);text-align:center;min-height:20px;font-weight:600;"></div>
+      <button class="auth-btn" onclick="doForgotPassword()">Show password →</button>
+    </div>
+    <div class="auth-switch"><span onclick="showLogin()">← Back to login</span></div>
+  </div>
+
+  <!-- Change password (in-app, from settings) -->
+  <div id="auth-change-pw-view" style="display:none;">
+    <div class="auth-sub">Choose a new password.</div>
+    <div class="auth-form">
+      <input class="auth-input" id="change-pw-current" type="password" placeholder="Current password" />
+      <input class="auth-input" id="change-pw-new" type="password" placeholder="New password (min. 6 chars)" />
+      <div class="auth-error" id="change-pw-error"></div>
+      <button class="auth-btn" onclick="doChangePassword()">Save new password →</button>
+    </div>
+    <div class="auth-switch"><span onclick="cancelChangePassword()">← Cancel</span></div>
   </div>
 </div>
 
@@ -2020,9 +2047,12 @@ function submitNewQuestion() {
     saved[cat].push(newQ);
     localStorage.setItem('custom_questions', JSON.stringify(saved));
   } catch(e) {}
+  // Inject as next question in active quiz if quiz is running
+  if (questions.length > 0 && currentIdx < questions.length) {
+    questions.splice(currentIdx + 1, 0, newQ);
+  }
   closeNewQuestionModal();
-  // Show toast
-  showToast('Question added to ' + cat + '! 🎉');
+  showToast('Question added — comes up next! 🎉');
 }
 
 function showToast(msg) {
@@ -2386,6 +2416,51 @@ function checkAuth() {
 }
 
 
+function showForgotPassword() {
+  ['auth-register-view','auth-login-view','auth-change-pw-view'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('auth-forgot-view').style.display = '';
+  document.getElementById('forgot-error').textContent = '';
+  document.getElementById('forgot-result').textContent = '';
+}
+
+function doForgotPassword() {
+  const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+  const users = getUsers();
+  const user = users[email];
+  if (!user) { document.getElementById('forgot-error').textContent = 'No account found for this e-mail.'; return; }
+  document.getElementById('forgot-result').textContent = 'Your password is: ' + user.password;
+  document.getElementById('forgot-error').textContent = '';
+}
+
+function openChangePassword() {
+  closePanel('panel-settings');
+  ['auth-register-view','auth-login-view','auth-forgot-view'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('auth-change-pw-view').style.display = '';
+  document.getElementById('change-pw-current').value = '';
+  document.getElementById('change-pw-new').value = '';
+  document.getElementById('change-pw-error').textContent = '';
+  document.getElementById('screen-auth').classList.remove('hidden');
+}
+
+function cancelChangePassword() {
+  document.getElementById('screen-auth').classList.add('hidden');
+}
+
+function doChangePassword() {
+  const current = document.getElementById('change-pw-current').value;
+  const newPw = document.getElementById('change-pw-new').value;
+  const errEl = document.getElementById('change-pw-error');
+  const user = getCurrentUser();
+  if (!user) return;
+  const users = getUsers();
+  if (users[user.email].password !== current) { errEl.textContent = 'Current password is incorrect.'; return; }
+  if (newPw.length < 6) { errEl.textContent = 'New password must be at least 6 characters.'; return; }
+  users[user.email].password = newPw;
+  localStorage.setItem('alike_users', JSON.stringify(users));
+  document.getElementById('screen-auth').classList.add('hidden');
+  showToast('Password updated! ✅');
+}
+
 function clearMatchHistory() {
   if (confirm('Clear all match history?')) {
     localStorage.removeItem('match_history');
@@ -2550,6 +2625,11 @@ function doLogout() {
         <div class="settings-item-icon">👤</div>
         <div class="settings-item-label">Display Name</div>
         <div class="settings-item-value" id="settings-username">You</div>
+      </div>
+      <div class="settings-item" style="cursor:pointer;" onclick="openChangePassword()">
+        <div class="settings-item-icon">🔑</div>
+        <div class="settings-item-label">Change Password</div>
+        <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item">
         <div class="settings-item-icon">🚪</div>
