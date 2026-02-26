@@ -271,8 +271,9 @@
     font-weight: 700;
     color: var(--ink);
     line-height: 1.2;
-    word-break: break-word;
-    hyphens: auto;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
   }
   .opt-emoji {
     font-size: 28px;
@@ -1657,7 +1658,7 @@ function renderQuestion() {
   setupDrag();
 }
 
-let showEmojis = true;
+let showEmojis = false;
 
 function toggleEmojis(btn) {
   btn.classList.toggle('on');
@@ -1848,10 +1849,11 @@ function showResultsForBoth(match) {
   document.getElementById('match-pct').textContent = pct + '%';
 
   let verdict, desc;
-  if (pct >= 80) { verdict = '🎉 Amazing Match!'; desc = 'You two are basically the same person. So much to talk about!'; }
-  else if (pct >= 60) { verdict = '✨ Great Match!'; desc = 'You have a lot in common – but also enough differences to keep things interesting.'; }
-  else if (pct >= 40) { verdict = '🤝 Solid Match'; desc = 'Some shared ground, some differences. A perfect recipe for good conversation!'; }
-  else { verdict = '🌶️ Opposites!'; desc = 'You see the world very differently. But opposites attract, right?'; }
+  if (pct >= 80) { verdict = 'Incredible Match!'; desc = 'This is what chemistry looks like. You are basically the same person.'; }
+  else if (pct >= 60) { verdict = 'Great Match!'; desc = 'Plenty in common. Just enough differences.'; }
+  else if (pct >= 40) { verdict = 'Solid Match!'; desc = 'Nice balance. Some overlap, some debate. Not bad at all.'; }
+  else if (pct >= 20) { verdict = 'Light Match!'; desc = 'Different views. Excellent conversation fuel.'; }
+  else { verdict = 'Barely a Match!'; desc = 'Almost no overlap. Congrats. You have unlimited talking points.'; }
 
   document.getElementById('match-verdict').textContent = verdict;
   document.getElementById('match-desc').textContent = desc;
@@ -1864,7 +1866,8 @@ function showResultsForBoth(match) {
   ring.style.strokeDashoffset = circumference;
   if (pct >= 60) ring.style.stroke = 'var(--match)';
   else if (pct >= 40) ring.style.stroke = 'var(--accent2)';
-  else ring.style.stroke = 'var(--accent)';
+  else if (pct >= 20) ring.style.stroke = 'var(--accent)';
+  else ring.style.stroke = 'var(--nomatch)';
 
   // Results list
   const list = document.getElementById('results-list');
@@ -2127,6 +2130,13 @@ function showToast(msg) {
 let drawerOpen = false;
 
 function toggleDrawer() {
+  // If any panel is open, close it and open the drawer
+  const openPanels = document.querySelectorAll('.panel-screen.open');
+  if (openPanels.length > 0) {
+    openPanels.forEach(p => p.classList.remove('open'));
+    openDrawer();
+    return;
+  }
   drawerOpen ? closeDrawer() : openDrawer();
 }
 
@@ -2463,10 +2473,10 @@ function checkAuth() {
   // else auth screen stays visible (it's shown by default)
   // Load emoji preference
   const savedEmoji = localStorage.getItem('show_emojis');
-  if (savedEmoji === '0') {
-    showEmojis = false;
+  if (savedEmoji === '1') {
+    showEmojis = true;
     const toggle = document.getElementById('emoji-toggle');
-    if (toggle) toggle.classList.remove('on');
+    if (toggle) toggle.classList.add('on');
   }
 }
 
@@ -2716,7 +2726,7 @@ function doLogout() {
       <div class="settings-item">
         <div class="settings-item-icon">😀</div>
         <div class="settings-item-label">Show Emojis</div>
-        <button class="settings-toggle on" id="emoji-toggle" onclick="toggleEmojis(this)"></button>
+        <button class="settings-toggle" id="emoji-toggle" onclick="toggleEmojis(this)"></button>
       </div>
     </div>
     <div class="settings-section">
