@@ -2076,9 +2076,22 @@ function showToast(msg) {
   setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2200);
 }
 
-// Load custom questions and edits on startup
+// Strip emojis from a string
+function stripEmojis(str) {
+  return str.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{1FA00}-\u{1FAFF}\uFE0F\u200D]/gu, '').trim();
+}
+
+// Load custom questions and edits on startup - auto-clears old emoji data from localStorage
 (function loadCustomQuestions() {
   try {
+    // If localStorage has emoji-containing question data, wipe it - built-in questions are already clean
+    ['custom_questions', 'question_edits'].forEach(key => {
+      const raw = localStorage.getItem(key);
+      if (raw && /[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}]/u.test(raw)) {
+        localStorage.removeItem(key);
+      }
+    });
+
     const saved = JSON.parse(localStorage.getItem('custom_questions') || '{}');
     Object.keys(saved).forEach(cat => {
       if (QUESTIONS[cat]) QUESTIONS[cat].push(...saved[cat]);
