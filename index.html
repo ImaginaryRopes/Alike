@@ -275,11 +275,6 @@
     overflow-wrap: break-word;
     hyphens: none;
   }
-  .opt-emoji {
-    font-size: 28px;
-    margin-bottom: 8px;
-    display: block;
-  }
 
   .or-badge {
     width: 36px; height: 36px;
@@ -1172,12 +1167,10 @@
       <div class="card-label" style="margin-top:32px;">What's more you?</div>
       <div class="options-row">
         <div class="opt" id="opt-left" onclick="answerClick('left')">
-          <span class="opt-emoji" id="opt-left-emoji"></span>
           <div class="opt-text" id="opt-left-text">Early bird</div>
         </div>
         <div class="or-badge">OR</div>
         <div class="opt" id="opt-right" onclick="answerClick('right')">
-          <span class="opt-emoji" id="opt-right-emoji"></span>
           <div class="opt-text" id="opt-right-text">Night owl</div>
         </div>
       </div>
@@ -1279,224 +1272,224 @@
 <script>
 const QUESTIONS = {
   Lifestyle: [
-    {l:'🌅 Early bird', r:'🦉 Night owl'},
-    {l:'📱 Phone first thing', r:'☕ Coffee first thing'},
-    {l:'🏠 Stay in', r:'🎉 Go out'},
-    {l:'📚 Read', r:'📺 Watch TV'},
-    {l:'🧹 Tidy freak', r:'🌀 Organized chaos'},
-    {l:'🧘 Slow mornings', r:'⚡ Rush mornings'},
-    {l:'💰 Save money', r:'🛍️ Spend money'},
-    {l:'🐕 Dog person', r:'🐈 Cat person'},
-    {l:'🌿 Minimalist', r:'🎨 Maximalist'},
-    {l:'📅 Planner', r:'🎲 Improviser'},
-    {l:'🏙️ City life', r:'🌾 Country life'},
-    {l:'🧃 Healthy habits', r:'🍩 Treat yourself'},
-    {l:'🧠 Logic', r:'❤️ Feelings'},
-    {l:'🗣️ Talk it out', r:'✍️ Write it out'},
-    {l:'👯 Social butterfly', r:'🐢 Homebody'},
-    {l:'👟 Sneakers', r:'👠 Dressed up'},
-    {l:'🖤 Black always', r:'🌈 Color lover'},
-    {l:'📏 Fitted clothes', r:'🛋️ Oversized'},
-    {l:'🛒 Shop often', r:'👚 Wear what you have'},
-    {l:'🔕 Phone on silent', r:'🔔 Notifications on'},
+    {l:'Early bird', r:'Night owl'},
+    {l:'Phone first thing', r:'Coffee first thing'},
+    {l:'Stay in', r:'Go out'},
+    {l:'Read', r:'Watch TV'},
+    {l:'Tidy freak', r:'Organized chaos'},
+    {l:'Slow mornings', r:'Rush mornings'},
+    {l:'Save money', r:'Spend money'},
+    {l:'Dog person', r:'Cat person'},
+    {l:'Minimalist', r:'Maximalist'},
+    {l:'Planner', r:'Improviser'},
+    {l:'City life', r:'Country life'},
+    {l:'Healthy habits', r:'Treat yourself'},
+    {l:'Logic', r:'Feelings'},
+    {l:'Talk it out', r:'Write it out'},
+    {l:'Social butterfly', r:'Homebody'},
+    {l:'Sneakers', r:'Dressed up'},
+    {l:'Black always', r:'Color lover'},
+    {l:'Fitted clothes', r:'Oversized'},
+    {l:'Shop often', r:'Wear what you have'},
+    {l:'Phone on silent', r:'Notifications on'},
   ],
   Food: [
-    {l:'🍳 Cooking', r:'📱 Ordering in'},
-    {l:'🥂 Fancy restaurant', r:'🍺 Casual spot'},
-    {l:'🍣 Sushi', r:'🍕 Pizza'},
-    {l:'☕ Black coffee', r:'🧋 Oat latte'},
-    {l:'🥩 Meat', r:'🥦 Vegetarian'},
-    {l:'🍽️ Three courses', r:'🥘 Tapas to share'},
-    {l:'🥚 Scrambled eggs', r:'🍳 Fried eggs'},
-    {l:'🫖 Tea', r:'☕ Coffee'},
-    {l:'🍪 Cookies', r:'🎂 Cake'},
-    {l:'🍺 Beer', r:'🍷 Wine'},
-    {l:'🇹🇭 Thai', r:'🇮🇹 Italian'},
-    {l:'⚡ Fast food', r:'🐢 Slow food'},
-    {l:'🧂 Savory', r:'🍯 Sweet'},
-    {l:'🥐 Croissant', r:'🥯 Bagel'},
-    {l:'🍔 Burger', r:'🌮 Tacos'},
-    {l:'🫧 Sparkling water', r:'💧 Still water'},
-    {l:'🥗 Light meal', r:'🍝 Something filling'},
-    {l:'🌶️ Very spicy', r:'🫙 Mild please'},
-    {l:'🍫 Chocolate', r:'🍬 Gummies'},
-    {l:'🥘 Home cooked', r:'🍱 Takeaway box'},
+    {l:'Cooking', r:'Ordering in'},
+    {l:'Fancy restaurant', r:'Casual spot'},
+    {l:'Sushi', r:'Pizza'},
+    {l:'Black coffee', r:'Oat latte'},
+    {l:'Meat', r:'Vegetarian'},
+    {l:'Three courses', r:'Tapas to share'},
+    {l:'Scrambled eggs', r:'Fried eggs'},
+    {l:'Tea', r:'Coffee'},
+    {l:'Cookies', r:'Cake'},
+    {l:'Beer', r:'Wine'},
+    {l:'Thai', r:'Italian'},
+    {l:'Fast food', r:'Slow food'},
+    {l:'Savory', r:'Sweet'},
+    {l:'Croissant', r:'Bagel'},
+    {l:'Burger', r:'Tacos'},
+    {l:'Sparkling water', r:'Still water'},
+    {l:'Light meal', r:'Something filling'},
+    {l:'Very spicy', r:'Mild please'},
+    {l:'Chocolate', r:'Gummies'},
+    {l:'Home cooked', r:'Takeaway box'},
   ],
   Love: [
-    {l:'💌 Text first', r:'📞 Call first'},
-    {l:'🌹 Grand gestures', r:'🌿 Small everyday moments'},
-    {l:'🏠 Stay in date', r:'🌆 Go out date'},
-    {l:'💬 Talk about feelings', r:'🤐 Show through actions'},
-    {l:'💏 PDA', r:'🙈 Keep it private'},
-    {l:'🎁 Give gifts', r:'⏱️ Give time'},
-    {l:'🔑 Move in together early', r:'🏠 Keep own place longer'},
-    {l:'📲 Constant texting', r:'📵 Space to breathe'},
-    {l:'💍 Marriage', r:'🤝 Commitment without it'},
-    {l:'👶 Kids', r:'🐾 No kids'},
-    {l:'❤️ Fall fast', r:'🌱 Take it slow'},
-    {l:'🫂 Physical touch', r:'🗣️ Words of affirmation'},
-    {l:'📅 Plan dates', r:'✨ Spontaneous dates'},
-    {l:'🏖️ Couple trips', r:'🧍 Solo trips too'},
-    {l:'🎂 Big birthday fuss', r:'🙂 Low-key birthday'},
-    {l:'💑 Best friends first', r:'⚡ Chemistry first'},
-    {l:'🔓 Share everything', r:'🔐 Keep some things private'},
-    {l:'😴 Same sleep schedule', r:'🌙 Different schedules ok'},
-    {l:'🥂 Mark every anniversary', r:'📆 Just another day'},
-    {l:'🤳 Post about us online', r:'🙅 Keep it offline'},
+    {l:'Text first', r:'Call first'},
+    {l:'Grand gestures', r:'Small everyday moments'},
+    {l:'Stay in date', r:'Go out date'},
+    {l:'Talk about feelings', r:'Show through actions'},
+    {l:'PDA', r:'Keep it private'},
+    {l:'Give gifts', r:'Give time'},
+    {l:'Move in together early', r:'Keep own place longer'},
+    {l:'Constant texting', r:'Space to breathe'},
+    {l:'Marriage', r:'Commitment without it'},
+    {l:'Kids', r:'No kids'},
+    {l:'Fall fast', r:'Take it slow'},
+    {l:'Physical touch', r:'Words of affirmation'},
+    {l:'Plan dates', r:'Spontaneous dates'},
+    {l:'Couple trips', r:'Solo trips too'},
+    {l:'Big birthday fuss', r:'Low-key birthday'},
+    {l:'Best friends first', r:'Chemistry first'},
+    {l:'Share everything', r:'Keep some things private'},
+    {l:'Same sleep schedule', r:'Different schedules ok'},
+    {l:'Mark every anniversary', r:'Just another day'},
+    {l:'Post about us online', r:'Keep it offline'},
   ],
   Music: [
-    {l:'🎸 Rock', r:'🎤 Pop'},
-    {l:'🎧 Headphones', r:'📢 Speakers'},
-    {l:'🌃 Live concert', r:'🏠 Streaming at home'},
-    {l:'🎼 Lyrics matter', r:'🥁 Beat matters'},
-    {l:'🎹 Classical', r:'🎷 Jazz'},
-    {l:'🎵 One genre', r:'🎶 All genres'},
-    {l:'📻 Radio', r:'🎧 Curated playlist'},
-    {l:'🎤 Karaoke', r:'🙅 Never karaoke'},
-    {l:'🔊 Loud', r:'🔈 Background music'},
-    {l:'🎻 Old classics', r:'🆕 New releases'},
-    {l:'🎙️ Podcasts', r:'🎵 Music only'},
-    {l:'🕺 Dance to it', r:'🧠 Really listen'},
-    {l:'💿 Full albums', r:'🎵 Just the singles'},
-    {l:'🪗 Acoustic', r:'⚡ Electronic'},
-    {l:'🎤 Follow the artist', r:'🎚️ Follow the producer'},
-    {l:'🎻 One instrument', r:'🎸 Full band'},
-    {l:'🌍 World music', r:'🏠 Local music'},
-    {l:'😭 Sad songs', r:'😄 Feel-good songs'},
-    {l:'🎪 Festival', r:'🎭 Intimate venue'},
-    {l:'🎵 Spotify', r:'🎶 Apple Music'},
+    {l:'Rock', r:'Pop'},
+    {l:'Headphones', r:'Speakers'},
+    {l:'Live concert', r:'Streaming at home'},
+    {l:'Lyrics matter', r:'Beat matters'},
+    {l:'Classical', r:'Jazz'},
+    {l:'One genre', r:'All genres'},
+    {l:'Radio', r:'Curated playlist'},
+    {l:'Karaoke', r:'Never karaoke'},
+    {l:'Loud', r:'Background music'},
+    {l:'Old classics', r:'New releases'},
+    {l:'Podcasts', r:'Music only'},
+    {l:'Dance to it', r:'Really listen'},
+    {l:'Full albums', r:'Just the singles'},
+    {l:'Acoustic', r:'Electronic'},
+    {l:'Follow the artist', r:'Follow the producer'},
+    {l:'One instrument', r:'Full band'},
+    {l:'World music', r:'Local music'},
+    {l:'Sad songs', r:'Feel-good songs'},
+    {l:'Festival', r:'Intimate venue'},
+    {l:'Spotify', r:'Apple Music'},
   ],
   Travel: [
-    {l:'🏖️ Beach', r:'⛰️ Mountains'},
-    {l:'✈️ Fly', r:'🚂 Train'},
-    {l:'🏨 Hotel', r:'🏕️ Camping'},
-    {l:'🗺️ Plan ahead', r:'🎲 Just go'},
-    {l:'🌍 Far away', r:'🏡 Close to home'},
-    {l:'🌆 City trip', r:'🌿 Nature escape'},
-    {l:'🍽️ Local food always', r:'🍔 Familiar comfort food'},
-    {l:'📸 Famous sights', r:'🔍 Hidden gems'},
-    {l:'🧳 Overpack', r:'👜 One carry-on'},
-    {l:'🛎️ All-inclusive', r:'🗺️ DIY adventure'},
-    {l:'🧑‍🤝‍🧑 Travel with friends', r:'🧍 Solo travel'},
-    {l:'🌞 Summer holiday', r:'❄️ Winter escape'},
-    {l:'🏛️ History & culture', r:'🎢 Fun & thrills'},
-    {l:'🛥️ Cruise', r:'🚐 Road trip'},
-    {l:'🌏 New destination every time', r:'🔁 Return to favorites'},
-    {l:'🌅 Sunrise hike', r:'🌃 Nightlife explorer'},
-    {l:'📖 Read about it before', r:'🚶 Explore on arrival'},
-    {l:'🛁 Luxury accommodation', r:'🛏️ Budget & spend elsewhere'},
-    {l:'🤝 Make friends abroad', r:'👫 Travel bubble only'},
-    {l:'🎒 Backpacker', r:'🧳 Comfort traveler'},
+    {l:'Beach', r:'Mountains'},
+    {l:'Fly', r:'Train'},
+    {l:'Hotel', r:'Camping'},
+    {l:'Plan ahead', r:'Just go'},
+    {l:'Far away', r:'Close to home'},
+    {l:'City trip', r:'Nature escape'},
+    {l:'Local food always', r:'Familiar comfort food'},
+    {l:'Famous sights', r:'Hidden gems'},
+    {l:'Overpack', r:'One carry-on'},
+    {l:'All-inclusive', r:'DIY adventure'},
+    {l:'Travel with friends', r:'Solo travel'},
+    {l:'Summer holiday', r:'Winter escape'},
+    {l:'History & culture', r:'Fun & thrills'},
+    {l:'Cruise', r:'Road trip'},
+    {l:'New destination every time', r:'Return to favorites'},
+    {l:'Sunrise hike', r:'Nightlife explorer'},
+    {l:'Read about it before', r:'Explore on arrival'},
+    {l:'Luxury accommodation', r:'Budget & spend elsewhere'},
+    {l:'Make friends abroad', r:'Travel bubble only'},
+    {l:'Backpacker', r:'Comfort traveler'},
   ],
   Culture: [
-    {l:'😂 Comedy', r:'😰 Thriller'},
-    {l:'🎬 Cinema', r:'🛋️ Sofa stream'},
-    {l:'🦸 Blockbuster', r:'🎭 Arthouse'},
-    {l:'🔮 Fantasy', r:'🚀 Sci-Fi'},
-    {l:'😢 Sad ending', r:'😊 Happy ending'},
-    {l:'📺 Series', r:'🎬 Films'},
-    {l:'🎮 Gaming', r:'📚 Reading'},
-    {l:'🎭 Theater', r:'🎤 Stand-up comedy'},
-    {l:'🔊 True crime', r:'📖 Literary fiction'},
-    {l:'📡 Documentary', r:'🤣 Reality TV'},
-    {l:'🗓️ One episode a week', r:'📦 Binge it all'},
-    {l:'🖼️ Art museum', r:'🔬 Science museum'},
-    {l:'📰 Read the news', r:'🎙️ Hear the news'},
-    {l:'📖 Physical books', r:'📱 E-reader'},
-    {l:'🎨 Contemporary art', r:'🏛️ Classical art'},
-    {l:'🌍 Foreign films', r:'🏠 Domestic films'},
-    {l:'✍️ Fiction', r:'📋 Non-fiction'},
-    {l:'🎪 Go to an exhibition', r:'🏠 Watch a doc instead'},
-    {l:'🃏 Board games', r:'🕹️ Video games'},
-    {l:'🎬 Director fan', r:'⭐ Actor fan'},
+    {l:'Comedy', r:'Thriller'},
+    {l:'Cinema', r:'Sofa stream'},
+    {l:'Blockbuster', r:'Arthouse'},
+    {l:'Fantasy', r:'Sci-Fi'},
+    {l:'Sad ending', r:'Happy ending'},
+    {l:'Series', r:'Films'},
+    {l:'Gaming', r:'Reading'},
+    {l:'Theater', r:'Stand-up comedy'},
+    {l:'True crime', r:'Literary fiction'},
+    {l:'Documentary', r:'Reality TV'},
+    {l:'One episode a week', r:'Binge it all'},
+    {l:'Art museum', r:'Science museum'},
+    {l:'Read the news', r:'Hear the news'},
+    {l:'Physical books', r:'E-reader'},
+    {l:'Contemporary art', r:'Classical art'},
+    {l:'Foreign films', r:'Domestic films'},
+    {l:'Fiction', r:'Non-fiction'},
+    {l:'Go to an exhibition', r:'Watch a doc instead'},
+    {l:'Board games', r:'Video games'},
+    {l:'Director fan', r:'Actor fan'},
   ],
   Sports: [
-    {l:'⚽ Football', r:'🏀 Basketball'},
-    {l:'🏊 Swimming', r:'🏃 Running'},
-    {l:'📺 Watch sport', r:'🤸 Play sport'},
-    {l:'🏋️ Gym', r:'🧘 Yoga'},
-    {l:'🤝 Team sport', r:'🏃 Solo sport'},
-    {l:'🌅 Morning workout', r:'🌙 Evening workout'},
-    {l:'🏆 Competitive', r:'🎉 Just for fun'},
-    {l:'⛷️ Winter sport', r:'🏄 Summer sport'},
-    {l:'🎯 Precision', r:'💨 Speed'},
-    {l:'🌿 Outdoors', r:'🏢 Indoors'},
-    {l:'🎾 Tennis', r:'🏸 Badminton'},
-    {l:'🧗 Climbing', r:'🚴 Cycling'},
-    {l:'🥊 Boxing', r:'🥋 Martial arts'},
-    {l:'📊 Stats & tactics', r:'❤️ Pure passion'},
-    {l:'🏟️ Stadium atmosphere', r:'📺 Couch & snacks'},
-    {l:'🥤 Energy drink', r:'💧 Just water'},
-    {l:'👟 Train every day', r:'🛋️ Train when I feel like it'},
-    {l:'🏅 Enter competitions', r:'🙅 Never compete'},
-    {l:'🤸 Stretch & warm up', r:'⚡ Jump straight in'},
-    {l:'🎽 Proper kit', r:'👕 Whatever fits'},
+    {l:'Football', r:'Basketball'},
+    {l:'Swimming', r:'Running'},
+    {l:'Watch sport', r:'Play sport'},
+    {l:'Gym', r:'Yoga'},
+    {l:'Team sport', r:'Solo sport'},
+    {l:'Morning workout', r:'Evening workout'},
+    {l:'Competitive', r:'Just for fun'},
+    {l:'Winter sport', r:'Summer sport'},
+    {l:'Precision', r:'Speed'},
+    {l:'Outdoors', r:'Indoors'},
+    {l:'Tennis', r:'Badminton'},
+    {l:'Climbing', r:'Cycling'},
+    {l:'Boxing', r:'Martial arts'},
+    {l:'Stats & tactics', r:'Pure passion'},
+    {l:'Stadium atmosphere', r:'Couch & snacks'},
+    {l:'Energy drink', r:'Just water'},
+    {l:'Train every day', r:'Train when I feel like it'},
+    {l:'Enter competitions', r:'Never compete'},
+    {l:'Stretch & warm up', r:'Jump straight in'},
+    {l:'Proper kit', r:'Whatever fits'},
   ],
   Values: [
-    {l:'🔒 Security', r:'🌊 Freedom'},
-    {l:'🏠 Roots & stability', r:'✈️ Change & adventure'},
-    {l:'👨‍👩‍👧 Family first', r:'🧍 Self first'},
-    {l:'💼 Career driven', r:'⏸️ Work to live'},
-    {l:'💰 Financial success', r:'😊 Personal happiness'},
-    {l:'🌱 Environment first', r:'📈 Progress first'},
-    {l:'🤝 Loyalty above all', r:'🔓 Honesty above all'},
-    {l:'🧠 Head', r:'❤️ Heart'},
-    {l:'📜 Tradition', r:'🆕 Innovation'},
-    {l:'🌍 Think global', r:'🏡 Act local'},
-    {l:'🎯 Achievement', r:'🌿 Contentment'},
-    {l:'⚖️ Justice', r:'🕊️ Peace'},
-    {l:'🗳️ Civic duty', r:'🙏 Personal morality'},
-    {l:'💪 Self-reliance', r:'🤲 Community'},
-    {l:'🔬 Science & reason', r:'🌌 Intuition & spirit'},
-    {l:'📣 Speak your mind', r:'🤫 Choose your battles'},
-    {l:'⚡ Move fast, fix later', r:'🐢 Get it right first time'},
-    {l:'🎭 Principles over pragmatism', r:'🔧 Pragmatism wins'},
-    {l:'🧒 Kids need structure', r:'🌈 Kids need freedom'},
-    {l:'💊 Duty to be healthy', r:'🍕 My body my choice'},
+    {l:'Security', r:'Freedom'},
+    {l:'Roots & stability', r:'Change & adventure'},
+    {l:'Family first', r:'Self first'},
+    {l:'Career driven', r:'Work to live'},
+    {l:'Financial success', r:'Personal happiness'},
+    {l:'Environment first', r:'Progress first'},
+    {l:'Loyalty above all', r:'Honesty above all'},
+    {l:'Head', r:'Heart'},
+    {l:'Tradition', r:'Innovation'},
+    {l:'Think global', r:'Act local'},
+    {l:'Achievement', r:'Contentment'},
+    {l:'Justice', r:'Peace'},
+    {l:'Civic duty', r:'Personal morality'},
+    {l:'Self-reliance', r:'Community'},
+    {l:'Science & reason', r:'Intuition & spirit'},
+    {l:'Speak your mind', r:'Choose your battles'},
+    {l:'Move fast, fix later', r:'Get it right first time'},
+    {l:'Principles over pragmatism', r:'Pragmatism wins'},
+    {l:'Kids need structure', r:'Kids need freedom'},
+    {l:'Duty to be healthy', r:'My body my choice'},
   ],
   People: [
-    {l:'👯 Many friends', r:'💎 Few close ones'},
-    {l:'🆕 Meet new people', r:'🔁 Stick with who you know'},
-    {l:'💬 Deep talks', r:'😄 Easy banter'},
-    {l:'🎉 Be the host', r:'🙌 Be the guest'},
-    {l:'📞 Keep in touch often', r:'🌊 Pick up where you left off'},
-    {l:'😤 Address conflict directly', r:'😌 Let it go'},
-    {l:'🤗 Hug hello', r:'👋 Wave hello'},
-    {l:'🧠 Smart friends', r:'😂 Funny friends'},
-    {l:'🫂 Emotionally supportive', r:'🛠️ Practically helpful'},
-    {l:'🎂 Remember every birthday', r:'🙈 Terrible with dates'},
-    {l:'🗣️ Advice giver', r:'👂 Listener'},
-    {l:'🌍 International circle', r:'🏘️ Local community'},
-    {l:'📱 Always reachable', r:'🔕 Respond when I can'},
-    {l:'🤝 Colleague can become friend', r:'📂 Keep work & life separate'},
-    {l:'😶 Need time to open up', r:'😊 Open book immediately'},
-    {l:'🥂 Celebrate everything', r:'🙂 Low-key by default'},
-    {l:'🎭 Friend group hangout', r:'☕ One on one'},
-    {l:'🤳 Share life online', r:'🔒 Keep it private'},
-    {l:'💸 Split everything equally', r:'🎁 Whoever earns more pays more'},
-    {l:'🧳 Some things I do alone', r:'👫 Everything together'},
+    {l:'Many friends', r:'Few close ones'},
+    {l:'Meet new people', r:'Stick with who you know'},
+    {l:'Deep talks', r:'Easy banter'},
+    {l:'Be the host', r:'Be the guest'},
+    {l:'Keep in touch often', r:'Pick up where you left off'},
+    {l:'Address conflict directly', r:'Let it go'},
+    {l:'Hug hello', r:'Wave hello'},
+    {l:'Smart friends', r:'Funny friends'},
+    {l:'Emotionally supportive', r:'Practically helpful'},
+    {l:'Remember every birthday', r:'Terrible with dates'},
+    {l:'Advice giver', r:'Listener'},
+    {l:'International circle', r:'Local community'},
+    {l:'Always reachable', r:'Respond when I can'},
+    {l:'Colleague can become friend', r:'Keep work & life separate'},
+    {l:'Need time to open up', r:'Open book immediately'},
+    {l:'Celebrate everything', r:'Low-key by default'},
+    {l:'Friend group hangout', r:'One on one'},
+    {l:'Share life online', r:'Keep it private'},
+    {l:'Split everything equally', r:'Whoever earns more pays more'},
+    {l:'Some things I do alone', r:'Everything together'},
   ],
   Future: [
-    {l:'🤖 AI will save us', r:'⚠️ AI is dangerous'},
-    {l:'🚀 Mars colony is exciting', r:'🌍 Fix Earth first'},
-    {l:'♾️ Live forever if you could', r:'🌿 Natural lifespan is enough'},
-    {l:'🧬 Edit your genes', r:'🙅 Leave nature alone'},
-    {l:'🏙️ Megacities', r:'🌾 Back to nature'},
-    {l:'⚡ Tech optimist', r:'🌧️ Tech pessimist'},
-    {l:'🤝 Universal basic income', r:'💼 Work for what you earn'},
-    {l:'🌐 One world government', r:'🗺️ Nations stay separate'},
-    {l:'🧠 Upload your mind', r:'💀 Death is part of life'},
-    {l:'🚗 Self-driving everywhere', r:'🚶 I\'ll drive myself'},
-    {l:'🏥 Designer babies ok', r:'🙏 Not for humans to decide'},
-    {l:'🌱 Veganism saves the planet', r:'🥩 Technology saves the planet'},
-    {l:'🤖 Robots do all the work', r:'🙌 Humans need meaningful work'},
-    {l:'📡 Contact aliens', r:'🤫 Maybe don\'t'},
-    {l:'💊 Enhance your brain', r:'🧘 Train your brain naturally'},
-    {l:'🌊 Climate change is solvable', r:'😰 Climate change is irreversible'},
-    {l:'🏫 School should teach coding', r:'🎨 School should teach creativity'},
-    {l:'🌍 Open borders', r:'🛂 Controlled immigration'},
-    {l:'⚛️ Nuclear energy is the answer', r:'☀️ Renewables only'},
-    {l:'📵 Kids should have no phones', r:'📱 Digital literacy from young'},
+    {l:'AI will save us', r:'AI is dangerous'},
+    {l:'Mars colony is exciting', r:'Fix Earth first'},
+    {l:'Live forever if you could', r:'Natural lifespan is enough'},
+    {l:'Edit your genes', r:'Leave nature alone'},
+    {l:'Megacities', r:'Back to nature'},
+    {l:'Tech optimist', r:'Tech pessimist'},
+    {l:'Universal basic income', r:'Work for what you earn'},
+    {l:'One world government', r:'Nations stay separate'},
+    {l:'Upload your mind', r:'Death is part of life'},
+    {l:'Self-driving everywhere', r:'I\'ll drive myself'},
+    {l:'Designer babies ok', r:'Not for humans to decide'},
+    {l:'Veganism saves the planet', r:'Technology saves the planet'},
+    {l:'Robots do all the work', r:'Humans need meaningful work'},
+    {l:'Contact aliens', r:'Maybe don\'t'},
+    {l:'Enhance your brain', r:'Train your brain naturally'},
+    {l:'Climate change is solvable', r:'Climate change is irreversible'},
+    {l:'School should teach coding', r:'School should teach creativity'},
+    {l:'Open borders', r:'Controlled immigration'},
+    {l:'Nuclear energy is the answer', r:'Renewables only'},
+    {l:'Kids should have no phones', r:'Digital literacy from young'},
   ],
 }
 
@@ -1619,17 +1612,8 @@ function startQuiz() {
 
 function renderQuestion() {
   const q = questions[currentIdx];
-  const [lEmoji, lText] = parseOption(q.l);
-  const [rEmoji, rText] = parseOption(q.r);
-
-  const leftEmoji = document.getElementById('opt-left-emoji');
-  const rightEmoji = document.getElementById('opt-right-emoji');
-  leftEmoji.textContent = lEmoji;
-  leftEmoji.style.display = (showEmojis && lEmoji) ? 'block' : 'none';
-  document.getElementById('opt-left-text').textContent = lText;
-  rightEmoji.textContent = rEmoji;
-  rightEmoji.style.display = (showEmojis && rEmoji) ? 'block' : 'none';
-  document.getElementById('opt-right-text').textContent = rText;
+  document.getElementById('opt-left-text').textContent = q.l.trim();
+  document.getElementById('opt-right-text').textContent = q.r.trim();
   document.getElementById('quiz-counter').textContent = (currentIdx+1) + ' / ' + questions.length;
   document.getElementById('progress-fill').style.width = ((currentIdx+1)/questions.length*100) + '%';
 
@@ -1643,8 +1627,8 @@ function renderQuestion() {
   document.getElementById('opt-right').className = 'opt';
 
   // Reset hints
-  document.getElementById('hint-left').textContent = '← ' + lText.split(' ').slice(-1)[0];
-  document.getElementById('hint-right').textContent = rText.split(' ').slice(-1)[0] + ' →';
+  document.getElementById('hint-left').textContent = '← ' + q.l.trim().split(' ').slice(-1)[0];
+  document.getElementById('hint-right').textContent = q.r.trim().split(' ').slice(-1)[0] + ' →';
 
   // Reset card
   card = document.getElementById('question-card');
@@ -1658,22 +1642,7 @@ function renderQuestion() {
   setupDrag();
 }
 
-let showEmojis = false;
 
-function toggleEmojis(btn) {
-  btn.classList.toggle('on');
-  showEmojis = btn.classList.contains('on');
-  localStorage.setItem('show_emojis', showEmojis ? '1' : '0');
-  if (questions.length > 0 && currentIdx < questions.length) renderQuestion();
-}
-
-function parseOption(str) {
-  const match = str.match(/^([\u{1F300}-\u{1FFFF}][\uFE0F]?\s*)/u);
-  if (match) {
-    return [match[0].trim(), str.slice(match[0].length).trim()];
-  }
-  return ['', str];
-}
 
 function answer(choice) {
   myAnswers.push(choice);
@@ -1823,8 +1792,8 @@ function showResultsForBoth(match) {
   match.questions.forEach((q, i) => {
     const me = answersA[i];
     const friend = answersB[i];
-    const [lEmoji, lText] = parseOption(q.l);
-    const [rEmoji, rText] = parseOption(q.r);
+    const lText = q.l.trim();
+    const rText = q.r.trim();
 
     let status;
     if (me === 'skip' && friend === 'skip') {
@@ -2337,9 +2306,7 @@ function openChat(idx, prefillQuestion) {
 
   // Pre-fill input if coming from a result row
   if (prefillQuestion) {
-    const [, lText] = parseOption(prefillQuestion.l);
-    const [, rText] = parseOption(prefillQuestion.r);
-    document.getElementById('chat-input').value = `${lText} or ${rText} – let's talk about this.`;
+    document.getElementById('chat-input').value = `${prefillQuestion.l.trim()} or ${prefillQuestion.r.trim()} – let's talk about this.`;
   }
 
   openPanel('panel-chat');
@@ -2471,13 +2438,6 @@ function checkAuth() {
     updateUserBadge();
   }
   // else auth screen stays visible (it's shown by default)
-  // Load emoji preference
-  const savedEmoji = localStorage.getItem('show_emojis');
-  if (savedEmoji === '1') {
-    showEmojis = true;
-    const toggle = document.getElementById('emoji-toggle');
-    if (toggle) toggle.classList.add('on');
-  }
 }
 
 
@@ -2723,11 +2683,7 @@ function doLogout() {
         <div class="settings-item-label">Sound Effects</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
       </div>
-      <div class="settings-item">
-        <div class="settings-item-icon">😀</div>
-        <div class="settings-item-label">Show Emojis</div>
-        <button class="settings-toggle" id="emoji-toggle" onclick="toggleEmojis(this)"></button>
-      </div>
+
     </div>
     <div class="settings-section">
       <div class="settings-item">
