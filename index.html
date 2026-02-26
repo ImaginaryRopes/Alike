@@ -1129,18 +1129,18 @@
   <p class="tagline">Find out what you really have in common.</p>
 
   <div class="categories">
-    <div class="cat-chip active" data-cat="Lifestyle">✨ Lifestyle</div>
-    <div class="cat-chip" data-cat="Food">🍕 Food</div>
-    <div class="cat-chip" data-cat="Love">💘 Love</div>
-    <div class="cat-chip" data-cat="Music">🎵 Music</div>
-    <div class="cat-chip" data-cat="Travel">✈️ Travel</div>
-    <div class="cat-chip" data-cat="Culture">🎭 Culture</div>
-    <div class="cat-chip" data-cat="Sports">⚽ Sports</div>
-    <div class="cat-chip" data-cat="Values">🧭 Values</div>
-    <div class="cat-chip" data-cat="People">🤝 People</div>
-    <div class="cat-chip" data-cat="Future">🚀 Future</div>
-    <div class="cat-chip" data-cat="Popular">🔥 Popular</div>
-    <div class="cat-chip" data-cat="Random">🎲 Random</div>
+    <div class="cat-chip active" data-cat="Lifestyle">Lifestyle</div>
+    <div class="cat-chip" data-cat="Food">Food</div>
+    <div class="cat-chip" data-cat="Love">Love</div>
+    <div class="cat-chip" data-cat="Music">Music</div>
+    <div class="cat-chip" data-cat="Travel">Travel</div>
+    <div class="cat-chip" data-cat="Culture">Culture</div>
+    <div class="cat-chip" data-cat="Sports">Sports</div>
+    <div class="cat-chip" data-cat="Values">Values</div>
+    <div class="cat-chip" data-cat="People">People</div>
+    <div class="cat-chip" data-cat="Future">Future</div>
+    <div class="cat-chip" data-cat="Popular">Popular</div>
+    <div class="cat-chip" data-cat="Random">Random</div>
   </div>
 
   <button class="btn-primary" onclick="startQuiz()">Start Matching →</button>
@@ -1161,7 +1161,7 @@
       <!-- Category + progress + counter inside card, flush to top -->
       <div style="width:100%; position:absolute; top:0; left:0; right:0; padding:14px 20px 12px; border-bottom: 1px solid rgba(26,20,16,0.07);">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:7px;">
-          <div class="quiz-cat" id="quiz-cat-label">✨ Lifestyle</div>
+          <div class="quiz-cat" id="quiz-cat-label">Lifestyle</div>
           <div class="quiz-counter" id="quiz-counter" style="font-size:12px; padding:3px 10px;">1 / 20</div>
         </div>
         <div class="progress-bar" style="margin-bottom:0; height:3px;">
@@ -1172,12 +1172,12 @@
       <div class="card-label" style="margin-top:32px;">What's more you?</div>
       <div class="options-row">
         <div class="opt" id="opt-left" onclick="answerClick('left')">
-          <span class="opt-emoji" id="opt-left-emoji">🌅</span>
+          <span class="opt-emoji" id="opt-left-emoji"></span>
           <div class="opt-text" id="opt-left-text">Early bird</div>
         </div>
         <div class="or-badge">OR</div>
         <div class="opt" id="opt-right" onclick="answerClick('right')">
-          <span class="opt-emoji" id="opt-right-emoji">🦉</span>
+          <span class="opt-emoji" id="opt-right-emoji"></span>
           <div class="opt-text" id="opt-right-text">Night owl</div>
         </div>
       </div>
@@ -1210,7 +1210,7 @@
       <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   </div>
-  <div class="match-title">✨ Profile Complete!</div>
+  <div class="match-title">Profile Complete!</div>
   <div class="match-subtitle" style="max-width:320px">You've answered all questions. Now invite a friend to see how you match!</div>
 
   <div style="background:var(--card); border:2px solid var(--ink); border-radius:16px; padding:20px; max-width:380px; margin:24px 0;">
@@ -1532,9 +1532,9 @@ function getPopularQuestions() {
 }
 
 const CATEGORY_EMOJI = {
-  Lifestyle:'✨', Food:'🍕', Love:'💘', Music:'🎵',
-  Travel:'✈️', Culture:'🎭', Sports:'⚽', Values:'🧭',
-  People:'🤝', Future:'🚀', Random:'🎲', Popular:'🔥'
+  Lifestyle:'', Food:'', Love:'', Music:'',
+  Travel:'', Culture:'', Sports:'', Values:'',
+  People:'', Future:'', Random:'', Popular:''
 };
 
 let currentCat = 'Food';
@@ -1577,7 +1577,7 @@ window.onload = function() {
     } else if (answersA && !answersB) {
       currentIdx = 0;
       myAnswers = [];
-      document.getElementById('quiz-cat-label').textContent = CATEGORY_EMOJI[currentCat] + ' ' + currentCat;
+      document.getElementById('quiz-cat-label').textContent = currentCat;
       renderQuestion();
       show('screen-quiz');
     }
@@ -1610,7 +1610,7 @@ function startQuiz() {
   isPersonB = false;
   matchId = null;
 
-  document.getElementById('quiz-cat-label').textContent = CATEGORY_EMOJI[currentCat] + ' ' + currentCat;
+  document.getElementById('quiz-cat-label').textContent = currentCat;
   renderQuestion();
   show('screen-quiz');
 }
@@ -1837,8 +1837,8 @@ function showResultsForBoth(match) {
       else status = 'nomatch';
     }
 
-    const meText = me === 'left' ? lEmoji+' '+lText : me === 'right' ? rEmoji+' '+rText : '–';
-    const friendText = friend === 'left' ? lEmoji+' '+lText : friend === 'right' ? rEmoji+' '+rText : '–';
+    const meText = me === 'left' ? lText : me === 'right' ? rText : '–';
+    const friendText = friend === 'left' ? lText : friend === 'right' ? rText : '–';
 
     resultItems.push({ meText, friendText, status });
   });
@@ -2236,7 +2236,7 @@ function renderMatches() {
         }
         return `
         <div class="match-list-item" onclick="openMatchDetail(${m.historyIdx})">
-          <div class="match-cat-icon">${CATEGORY_EMOJI[m.cat] || '🎯'}</div>
+          <div class="match-cat-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">${m.cat}</div>
           <div class="match-info">
             <div class="match-info-title">${m.cat}</div>
             <div class="match-info-sub">${m.date}</div>
