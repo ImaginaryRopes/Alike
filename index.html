@@ -227,11 +227,6 @@
     line-height: 1.5;
     letter-spacing: 0;
   }
-  .card-label.is-default {
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
 
   .options-row {
     display: flex; align-items: center;
@@ -1717,10 +1712,8 @@ function renderQuestion() {
   const labelEl = document.getElementById('card-label');
   if (q.s) {
     labelEl.textContent = q.s;
-    labelEl.classList.remove('is-default');
   } else {
     labelEl.textContent = "What's more you?";
-    labelEl.classList.add('is-default');
   }
 
   document.getElementById('quiz-counter').textContent = (currentIdx+1) + ' / ' + questions.length;
@@ -1918,7 +1911,7 @@ function showResultsForBoth(match) {
     const meText = me === 'left' ? lText : me === 'right' ? rText : '–';
     const friendText = friend === 'left' ? lText : friend === 'right' ? rText : '–';
 
-    resultItems.push({ meText, friendText, status });
+    resultItems.push({ meText, friendText, status, setup: q.s || '' });
   });
 
   const pct = total > 0 ? Math.round(matches/total*100) : 0;
@@ -1950,11 +1943,14 @@ function showResultsForBoth(match) {
   // Results list
   const list = document.getElementById('results-list');
   list.innerHTML = resultItems.map((item, i) => `
-    <div class="result-item">
-      <div class="result-a${item.status === 'match' ? ' winner' : ''}">${item.meText}</div>
-      <div class="result-dot dot-${item.status}"></div>
-      <div class="result-b${item.status === 'match' ? ' winner' : ''}">${item.friendText}</div>
-      <button class="result-chat-btn" onclick="openChatFromResult(${i})" title="Start a conversation about this">💬</button>
+    <div class="result-item" style="flex-direction:column; align-items:stretch; gap:4px;">
+      ${item.setup ? `<div style="font-size:11px; color:var(--muted); text-align:center; padding-top:2px;">${item.setup}</div>` : ''}
+      <div style="display:grid; grid-template-columns:1fr 28px 1fr 32px; align-items:center; gap:8px;">
+        <div class="result-a${item.status === 'match' ? ' winner' : ''}">${item.meText}</div>
+        <div class="result-dot dot-${item.status}"></div>
+        <div class="result-b${item.status === 'match' ? ' winner' : ''}">${item.friendText}</div>
+        <button class="result-chat-btn" onclick="openChatFromResult(${i})" title="Start a conversation about this">💬</button>
+      </div>
     </div>
   `).join('');
 
