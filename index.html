@@ -1802,7 +1802,7 @@ function decodeQuestions(encoded, fallbackCat) {
     const flipped = m[3] === 'f';
     const q = QUESTIONS[cat] && QUESTIONS[cat][idx];
     if (!q) return null;
-    return flipped ? {l: q.r, r: q.l, _cat: cat} : {...q, _cat: cat};
+    return flipped ? {s: q.s, l: q.r, r: q.l, _cat: cat} : {...q, _cat: cat};
   }).filter(Boolean);
 }
 
