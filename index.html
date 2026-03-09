@@ -711,7 +711,6 @@
   }
   .settings-item:last-child { border-bottom: none; }
   .settings-item:hover { background: rgba(26,20,16,0.03); }
-  .settings-item-icon { font-size: 20px; }
   .settings-item-label {
     flex: 1;
     font-family: 'Syne', sans-serif;
@@ -1115,6 +1114,8 @@
   <h1>Alike</h1>
   <p class="tagline">Find out what you really have in common.</p>
 
+  <p style="font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--ink); letter-spacing:0.2px; margin-bottom:16px; text-align:center;">Find out how much you have in common.</p>
+
   <div class="categories">
     <div class="cat-chip active" data-cat="Lifestyle">Lifestyle</div>
     <div class="cat-chip" data-cat="Food">Food</div>
@@ -1195,8 +1196,8 @@
       <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   </div>
-  <div class="match-title">Profile Complete!</div>
-  <div class="match-subtitle" style="max-width:320px">You've answered all questions. Now invite a friend to see how you match!</div>
+  <div class="match-title" id="share-screen-title">Questions Complete.</div>
+  <div class="match-subtitle" style="max-width:320px" id="share-screen-sub">You've answered all questions. Now invite a friend to see how you match!</div>
 
   <div style="background:var(--card); border:2px solid var(--ink); border-radius:16px; padding:20px; max-width:380px; margin:24px 0;">
     <div style="font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Your Match Link</div>
@@ -1922,6 +1923,8 @@ function finishQuiz() {
     params.set('q', encodeQuestions(questions));
     const shareUrl = window.location.origin + window.location.pathname + '?' + params.toString();
     document.getElementById('share-link').value = shareUrl;
+    document.getElementById('share-screen-title').textContent = currentCat + ' Questions Complete.';
+    document.getElementById('share-screen-sub').textContent = "You've answered all questions. Now invite a friend to see how you match!";
     show('screen-share');
   }
 }
@@ -2390,7 +2393,6 @@ function renderMatches() {
         }
         return `
         <div class="match-list-item" onclick="openMatchDetail(${m.historyIdx})">
-          <div class="match-cat-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">${m.cat}</div>
           <div class="match-info">
             <div class="match-info-title">${m.cat}</div>
             <div class="match-info-sub">${m.date}</div>
@@ -2846,56 +2848,46 @@ function doLogout() {
   <div class="panel-body">
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">NOT</div>
         <div class="settings-item-label">Notifications</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">DRK</div>
         <div class="settings-item-label">Dark Mode</div>
         <button class="settings-toggle" onclick="this.classList.toggle('on')"></button>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">SND</div>
         <div class="settings-item-label">Sound Effects</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
       </div>
     </div>
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">USR</div>
         <div class="settings-item-label">Display Name</div>
         <div class="settings-item-value" id="settings-username">You</div>
       </div>
       <div class="settings-item" style="cursor:pointer;" onclick="openQuestionEditor()">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">EDIT</div>
         <div class="settings-item-label">Edit Questions</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item" style="cursor:pointer;" onclick="openChangePassword()">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">PWD</div>
         <div class="settings-item-label">Change Password</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">OUT</div>
         <div class="settings-item-label">Log out</div>
         <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="doLogout()">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">CLR</div>
         <div class="settings-item-label">Clear Match History</div>
         <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="clearMatchHistory()">Clear</div>
       </div>
     </div>
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">RATE</div>
         <div class="settings-item-label">Rate Alike</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">FBK</div>
         <div class="settings-item-label">Send Feedback</div>
         <div class="settings-item-value">→</div>
       </div>
