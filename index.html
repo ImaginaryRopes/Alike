@@ -223,7 +223,9 @@
     text-transform: uppercase;
     color: var(--ink);
     margin-bottom: 24px;
-    opacity: 0.55;
+    opacity: 1;
+    text-align: center;
+    width: 100%;
   }
 
   .options-row {
@@ -273,11 +275,6 @@
     line-height: 1.2;
     word-break: break-word;
     hyphens: auto;
-  }
-  .opt-emoji {
-    font-size: 28px;
-    margin-bottom: 8px;
-    display: block;
   }
 
   .or-badge {
@@ -1128,18 +1125,18 @@
   <p class="tagline">Find out what you really have in common.</p>
 
   <div class="categories">
-    <div class="cat-chip active" data-cat="Lifestyle">✨ Lifestyle</div>
-    <div class="cat-chip" data-cat="Food">🍕 Food</div>
-    <div class="cat-chip" data-cat="Love">💘 Love</div>
-    <div class="cat-chip" data-cat="Music">🎵 Music</div>
-    <div class="cat-chip" data-cat="Travel">✈️ Travel</div>
-    <div class="cat-chip" data-cat="Culture">🎭 Culture</div>
-    <div class="cat-chip" data-cat="Sports">⚽ Sports</div>
-    <div class="cat-chip" data-cat="Values">🧭 Values</div>
-    <div class="cat-chip" data-cat="People">🤝 People</div>
-    <div class="cat-chip" data-cat="Future">🚀 Future</div>
-    <div class="cat-chip" data-cat="Popular">🔥 Popular</div>
-    <div class="cat-chip" data-cat="Random">🎲 Random</div>
+    <div class="cat-chip active" data-cat="Lifestyle">Lifestyle</div>
+    <div class="cat-chip" data-cat="Food">Food</div>
+    <div class="cat-chip" data-cat="Love">Love</div>
+    <div class="cat-chip" data-cat="Music">Music</div>
+    <div class="cat-chip" data-cat="Travel">Travel</div>
+    <div class="cat-chip" data-cat="Culture">Culture</div>
+    <div class="cat-chip" data-cat="Sports">Sports</div>
+    <div class="cat-chip" data-cat="Values">Values</div>
+    <div class="cat-chip" data-cat="People">People</div>
+    <div class="cat-chip" data-cat="Future">Future</div>
+    <div class="cat-chip" data-cat="Popular">Popular</div>
+    <div class="cat-chip" data-cat="Random">Random</div>
   </div>
 
   <button class="btn-primary" onclick="startQuiz()">Start Matching →</button>
@@ -1160,7 +1157,7 @@
       <!-- Category + progress + counter inside card, flush to top -->
       <div style="width:100%; position:absolute; top:0; left:0; right:0; padding:14px 20px 12px; border-bottom: 1px solid rgba(26,20,16,0.07);">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:7px;">
-          <div class="quiz-cat" id="quiz-cat-label">✨ Lifestyle</div>
+          <div class="quiz-cat" id="quiz-cat-label">Lifestyle</div>
           <div class="quiz-counter" id="quiz-counter" style="font-size:12px; padding:3px 10px;">1 / 20</div>
         </div>
         <div class="progress-bar" style="margin-bottom:0; height:3px;">
@@ -1171,12 +1168,10 @@
       <div class="card-label" style="margin-top:32px;" id="card-setup">What's more you?</div>
       <div class="options-row">
         <div class="opt" id="opt-left" onclick="answerClick('left')">
-          <span class="opt-emoji" id="opt-left-emoji">🌅</span>
           <div class="opt-text" id="opt-left-text">Early bird</div>
         </div>
         <div class="or-badge">OR</div>
         <div class="opt" id="opt-right" onclick="answerClick('right')">
-          <span class="opt-emoji" id="opt-right-emoji">🦉</span>
           <div class="opt-text" id="opt-right-text">Night owl</div>
         </div>
       </div>
@@ -1186,15 +1181,15 @@
   <!-- New action bar: Like / Skip / New Question -->
   <div class="action-bar">
     <div class="action-item" onclick="likeQuestion()">
-      <div class="action-circle" id="like-btn">👍</div>
+      <div class="action-circle" id="like-btn" style="font-family:'Syne',sans-serif;font-size:12px;font-weight:800;">LIKE</div>
       <div class="action-label">Nice one</div>
     </div>
     <div class="action-item skip-btn" onclick="answer('skip')">
-      <div class="action-circle" style="font-size:17px; font-weight:800; font-family:'Syne',sans-serif;">>></div>
+      <div class="action-circle" style="font-size:17px; font-weight:800; font-family:'Syne',sans-serif;">SKIP</div>
       <div class="action-label">Skip</div>
     </div>
     <div class="action-item" onclick="openNewQuestionModal()">
-      <div class="action-circle">＋</div>
+      <div class="action-circle" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;">+</div>
       <div class="action-label">New question</div>
     </div>
   </div>
@@ -1209,16 +1204,16 @@
       <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   </div>
-  <div class="match-title">✨ Profile Complete!</div>
+  <div class="match-title">Profile Complete!</div>
   <div class="match-subtitle" style="max-width:320px">You've answered all questions. Now invite a friend to see how you match!</div>
 
   <div style="background:var(--card); border:2px solid var(--ink); border-radius:16px; padding:20px; max-width:380px; margin:24px 0;">
     <div style="font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Your Match Link</div>
     <div style="display:flex; gap:8px; align-items:center;">
       <input type="text" id="share-link" readonly style="flex:1; padding:10px 14px; border:1.5px solid rgba(26,20,16,0.2); border-radius:10px; font-size:13px; font-family:'DM Sans',sans-serif; background:var(--bg);" value="">
-      <button class="action-btn" onclick="copyLink()" title="Copy link" style="flex-shrink:0;">📋</button>
+      <button class="action-btn" onclick="copyLink()" title="Copy link" style="flex-shrink:0;">copy</button>
     </div>
-    <div id="copy-feedback" style="font-size:11px; color:var(--match); margin-top:8px; opacity:0; transition:opacity 0.3s;">✓ Link copied!</div>
+    <div id="copy-feedback" style="font-size:11px; color:var(--match); margin-top:8px; opacity:0; transition:opacity 0.3s;">Link copied!</div>
   </div>
 
   <div class="btn-row" style="gap:10px;">
@@ -1278,330 +1273,330 @@
 <script>
 const QUESTIONS = {
   Lifestyle: [
-    {l:'🌅 Early bird', r:'🦉 Night owl'},
-    {l:'📱 Phone first thing', r:'☕ Coffee first thing'},
-    {l:'🏠 Stay in', r:'🎉 Go out'},
-    {l:'🐕 Dog person', r:'🐈 Cat person'},
-    {l:'🌿 Minimalist', r:'🎨 Maximalist'},
-    {l:'📅 Planner', r:'🎲 Improviser'},
-    {l:'🏙️ City life', r:'🌾 Country life'},
-    {l:'🧠 Logic', r:'❤️ Feelings'},
-    {l:'👯 Social butterfly', r:'🐢 Introvert'},
-    {l:'👟 Sneakers', r:'👠 Dressed up'},
-    {l:'🏠 Spacious loft', r:'🚪 I need rooms'},
-    {l:'📵 No gadgets', r:'🔌 Yes gadgets'},
-    {l:'🔕 Phone on silent', r:'🔔 Notifications on'},
-    {l:'🌱 Own as little as possible', r:'💝 Surround yourself with things you love'},
-    {s:'You have a free Sunday with no plans.', l:'😌 Perfect', r:'😬 Unsettling'},
-    {s:"It's 11pm on a Friday.", l:'😴 Already asleep', r:'🌙 Just getting started'},
-    {s:'New city, first evening.', l:'🚶 Explore immediately', r:'🛏️ Hotel room and decompress'},
-    {s:'Someone cancels plans last minute.', l:'😮‍💨 Secretly relieved', r:'😔 Genuinely disappointed'},
-    {s:"There's a party. You know nobody there.", l:'😎 Game on', r:'👋 Bye'},
-    {s:"It's been a long week.", l:'🕺 Go out anyway', r:'🛋️ Cancel everything'},
-    {l:'🆕 Buy it new', r:'♻️ Buy it second hand'},
-    {l:'⚡ Fast fashion', r:'💎 Invest in fewer pieces'},
-    {l:'🌀 I like playing with trends', r:'✨ I create my own style'},
-    {l:'🏷️ Designer labels', r:'🙈 Nobody knows the brand'},
-    {l:'🛍️ Shop alone', r:'👫 Shop with someone'},
-    {l:'💻 Online shopping', r:'🏬 In-store'},
-    {s:'Getting dressed in the morning.', l:'📋 Outfit planned the night before', r:'😴 Figure it out while half asleep'},
-    {s:"You found the perfect jacket. It's €400.", l:'💸 Worth it', r:'😮 Too expensive'},
-    {s:'Your friend shows up in the same outfit.', l:'🥰 Cute', r:'😬 Awkward'},
-    {l:'⚡ Electric car', r:'⛽ Petrol car'},
-    {l:'🚗 Own a car', r:'🚌 No car needed'},
-    {l:'🚇 Use public transport', r:'🚗 Drive everywhere'},
-    {l:'🚴 Bike to work', r:'🚗 Drive to work'},
-    {l:'🛣️ Road trip', r:'🏠 Stay put'},
-    {l:'🪟 Window seat', r:'🚶 Aisle seat'},
-    {s:"You're running 10 minutes late.", l:'😰 Already stressed', r:'😌 That\'s fine'},
-    {s:'The parking situation is impossible.', l:'🔄 Circle for 20 minutes', r:'💳 Pay for the garage'},
-    {s:'Six-pack or healthy relationship with food?', l:'💪 Six-pack', r:'🥗 Healthy relationship with food'},
-    {l:'😴 Lots of sleep', r:'⚡ Function on less'},
-    {l:'⏰ Strict bedtime', r:'🌙 Sleep when tired'},
-    {s:'At night I\'ll put my phone', l:'🚪 In another room', r:'🛏️ Next to the bed'},
-    {l:'😴 Naps make my day', r:'😤 Naps ruin my day'},
-    {s:"It's 3am and you can't sleep.", l:'📖 Read something', r:'📱 Scroll until unconscious'},
-    {s:'Alarm goes off. First thought.', l:'📋 Already planning the day', r:'😩 Please no'},
-    {s:'Weekend lie-in.', l:'🌤️ Until 9, then up', r:'😌 Until noon, no regrets'},
-    {l:'🎟️ Spend on experiences', r:'🛍️ Spend on things'},
-    {l:'💰 Save aggressively', r:'🎉 Enjoy it now'},
-    {l:'📊 Budget everything', r:'🤷 Rough idea of where the money goes'},
-    {l:'📈 Invest in stocks', r:'🏠 Invest in property'},
-    {l:'🧾 Split the bill', r:'🎁 I\'ll get it next time'},
-    {s:'Your friend earns significantly more than you.', l:'😬 Complicated feelings', r:'👍 Completely fine'},
-    {s:"You're offered a higher salary but worse work-life balance.", l:'💼 Take it', r:'🙅 Leave it'},
-    {l:'⏸️ Work to live', r:'🔥 Live to work'},
-    {l:'🏠 Remote work forever', r:'🏢 Office has its place'},
-    {l:'🕘 9-to-5 structure', r:'🌊 Flexible hours'},
-    {l:'💡 Side hustle', r:'🎯 One job is enough'},
-    {l:'🚀 Ambitious', r:'🌿 Content'},
-    {l:'🌱 Start your own thing', r:'🏗️ Build something within a company'},
-    {s:'Sunday evening feeling.', l:'✅ Ready for the week', r:'😰 Already dreading Monday'},
-    {s:'Your boss asks you to work over the weekend.', l:'💼 Sure, if needed', r:'📅 That\'s what Monday is for'},
-    {s:'Dream scenario in 10 years.', l:'🏝️ Financial independence', r:'❤️ Doing work you love'},
-    {l:'👯 Lots of friends', r:'💎 Few close ones'},
-    {l:'💬 Deep talks', r:'😄 Easy banter'},
-    {l:'🎉 Be the host', r:'🙌 Be the guest'},
-    {l:'🤗 Hug hello', r:'👋 Wave hello'},
-    {s:"There's a conflict.", l:'😤 Address directly', r:'⏳ Wait for the right moment'},
-    {l:'🗣️ Give advice', r:'👂 Just listen'},
-    {l:'📞 Stay in touch constantly', r:'🌊 Pick up where you left off'},
-    {s:'Someone at the table is being rude to the waiter.', l:'😡 Say something', r:'🤐 Say nothing'},
-    {s:'Group chat is blowing up.', l:'🔕 Mute it immediately', r:'👀 Stay on top of it'},
-    {l:'📰 Read the news daily', r:'🚫 Avoid the news'},
-    {l:'📡 One quality news source', r:'🌐 Multiple sources'},
-    {l:'🗳️ Politically engaged', r:'😮‍💨 Politics is exhausting'},
-    {l:'🗳️ Vote in every election', r:'🤷 Voting doesn\'t change much'},
-    {s:'Someone shares a conspiracy theory at dinner.', l:'🤔 Engage', r:'↩️ Change the subject'},
-    {s:'The news is particularly bad today.', l:'📖 Read it all', r:'❌ Close the tab'},
-    {l:'📵 Screen time under 3 hours', r:'🤷 Screen time is whatever'},
-    {l:'📱 Social media daily', r:'😌 Could take it or leave it'},
-    {l:'📸 Post regularly', r:'👀 Mostly lurk'},
-    {l:'✨ Curated feed', r:'🌀 Chronological chaos'},
-    {l:'🙌 Real life first', r:'📷 Document everything'},
-    {l:'✂️ Unfollow freely', r:'🤝 Keep everyone'},
-    {s:"Your phone battery is at 4%.", l:'😱 Instant anxiety', r:'😌 Fine, I\'ll find a charger'},
-    {s:"You've been doom-scrolling for 45 minutes.", l:'✅ Close the app', r:'📱 Just a few more minutes'},
-    {s:'Someone posts something you strongly disagree with.', l:'💬 Comment', r:'🤳 Scroll past'},
-    {l:'🛋️ Therapy is essential', r:'💪 Deal with it yourself'},
-    {l:'🧘 Meditate', r:'🚶 Take a walk'},
-    {l:'✅ Routines are comforting', r:'😴 Routines are boring'},
-    {l:'🏝️ Alone time is essential', r:'⚠️ Too much alone time is dangerous'},
-    {l:'💙 Sensitive', r:'🪨 Thick-skinned'},
-    {s:'Something is bothering you. Your first instinct.', l:'🗣️ Talk about it', r:'🤔 Work through it alone'},
-    {s:'You made a mistake at work.', l:'🙋 Own it immediately', r:'🔧 Figure out how to fix it first'},
-    {l:'☀️ Optimist', r:'🌧️ Realist'},
-    {l:'🌕 Glass half full', r:'🌑 Glass half empty'},
-    {l:'🤝 Trust people by default', r:'🔒 Trust has to be earned'},
-    {l:'📜 Rules are there for a reason', r:'🎲 Rules are suggestions'},
-    {l:'✨ Spontaneous', r:'📅 Need to know the plan'},
-    {s:"Someone gives you honest feedback you didn't ask for.", l:'🙏 Grateful', r:'😤 Defensive for a moment'},
-    {s:'You disagree with a close friend about something important.', l:'💬 Address it', r:'🕊️ Let it go'},
-    {l:'🏠 Own your home', r:'🔑 Rent forever'},
-    {l:'🏙️ Urban apartment', r:'🌲 Space outside the city'},
-    {l:'🔨 Renovation project', r:'✅ Move-in ready'},
-    {l:'🤖 Smart home gadgets', r:'🌿 Keep it simple'},
-    {s:'Your neighbour plays loud music at midnight.', l:'🚪 Knock on the door', r:'🎧 Put in earplugs'},
-    {s:"You're moving to a new city for a job.", l:'🎉 Exciting', r:'😨 Terrifying'},
-    {s:'Ideal living situation in 10 years.', l:'🏡 House with a garden', r:'🏙️ City apartment, walkable to everything'},
-    {l:'🥦 Eat organic when possible', r:'🍽️ Eat what\'s available'},
-    {l:'♻️ Reduce, reuse, recycle', r:'🌱 Do your bit but don\'t stress'},
-    {l:'✈️ Fly less for the environment', r:'🌍 Flying is non-negotiable'},
-    {l:'🌿 Buy sustainable brands', r:'💰 Price comes first'},
-    {l:'🥗 Vegetarian for the planet', r:'🤷 Individuals don\'t move the needle'},
-    {l:'📚 Read physical books', r:'🎧 E-reader or audiobook'},
-    {l:'📖 Fiction', r:'📋 Non-fiction'},
-    {l:'🎬 Cinema', r:'🛋️ Streaming at home'},
-    {l:'📦 Binge it all at once', r:'📅 One episode a week'},
-    {l:'📺 Background TV', r:'🎯 Full attention or nothing'},
-    {s:'Cultural event on a Wednesday night. Starts at 8.', l:'🎭 Obviously', r:'🛌 Not tonight'},
-    {l:'🎸 Concerts', r:'🎪 Festivals'},
-    {l:'🖼️ Gallery', r:'🔬 Museum'},
-    {l:'🆕 New restaurant', r:'⭐ Proven favourite'},
-    {l:'✨ Trendy neighbourhood', r:'🏘️ Established neighbourhood'},
-    {s:'The new place has a three-month waiting list.', l:'📋 Join it', r:'🙄 Not worth the hype'},
-    {l:'💪 Morning person who works out', r:'🌙 Night person who stays out'},
-    {l:'🥗 Healthy and a bit boring', r:'⚡ Chaotic but alive'},
-    {s:'Life philosophy.', l:'⚖️ Everything in moderation', r:'🔥 Go all in or don\'t bother'},
-    {s:'In the end, what matters more?', l:'🌊 Depth', r:'🌍 Breadth'},
+    {l:'Early bird', r:'Night owl'},
+    {l:'Phone first thing', r:'Coffee first thing'},
+    {l:'Stay in', r:'Go out'},
+    {l:'Dog person', r:'Cat person'},
+    {l:'Minimalist', r:'Maximalist'},
+    {l:'Planner', r:'Improviser'},
+    {l:'City life', r:'Country life'},
+    {l:'Logic', r:'Feelings'},
+    {l:'Social butterfly', r:'Introvert'},
+    {l:'Sneakers', r:'Dressed up'},
+    {l:'Spacious loft', r:'I need rooms'},
+    {l:'No gadgets', r:'Yes gadgets'},
+    {l:'Phone on silent', r:'Notifications on'},
+    {l:'Own as little as possible', r:'Surround yourself with things you love'},
+    {s:'You have a free Sunday with no plans.', l:'Perfect', r:'Unsettling'},
+    {s:"It's 11pm on a Friday.", l:'Already asleep', r:'Just getting started'},
+    {s:'New city, first evening.', l:'Explore immediately', r:'Hotel room and decompress'},
+    {s:'Someone cancels plans last minute.', l:'‍Secretly relieved', r:'Genuinely disappointed'},
+    {s:"There's a party. You know nobody there.", l:'Game on', r:'Bye'},
+    {s:"It's been a long week.", l:'Go out anyway', r:'Cancel everything'},
+    {l:'Buy it new', r:'Buy it second hand'},
+    {l:'Fast fashion', r:'Invest in fewer pieces'},
+    {l:'I like playing with trends', r:'I create my own style'},
+    {l:'Designer labels', r:'Nobody knows the brand'},
+    {l:'Shop alone', r:'Shop with someone'},
+    {l:'Online shopping', r:'In-store'},
+    {s:'Getting dressed in the morning.', l:'Outfit planned the night before', r:'Figure it out while half asleep'},
+    {s:"You found the perfect jacket. It's €400.", l:'Worth it', r:'Too expensive'},
+    {s:'Your friend shows up in the same outfit.', l:'Cute', r:'Awkward'},
+    {l:'Electric car', r:'Petrol car'},
+    {l:'Own a car', r:'No car needed'},
+    {l:'Use public transport', r:'Drive everywhere'},
+    {l:'Bike to work', r:'Drive to work'},
+    {l:'Road trip', r:'Stay put'},
+    {l:'Window seat', r:'Aisle seat'},
+    {s:"You're running 10 minutes late.", l:'Already stressed', r:'That\'s fine'},
+    {s:'The parking situation is impossible.', l:'Circle for 20 minutes', r:'Pay for the garage'},
+    {s:'Six-pack or healthy relationship with food?', l:'Six-pack', r:'Healthy relationship with food'},
+    {l:'Lots of sleep', r:'Function on less'},
+    {l:'⏰ Strict bedtime', r:'Sleep when tired'},
+    {s:'At night I\'ll put my phone', l:'In another room', r:'Next to the bed'},
+    {l:'Naps make my day', r:'Naps ruin my day'},
+    {s:"It's 3am and you can't sleep.", l:'Read something', r:'Scroll until unconscious'},
+    {s:'Alarm goes off. First thought.', l:'Already planning the day', r:'Please no'},
+    {s:'Weekend lie-in.', l:'Until 9, then up', r:'Until noon, no regrets'},
+    {l:'Spend on experiences', r:'Spend on things'},
+    {l:'Save aggressively', r:'Enjoy it now'},
+    {l:'Budget everything', r:'Rough idea of where the money goes'},
+    {l:'Invest in stocks', r:'Invest in property'},
+    {l:'Split the bill', r:'I\'ll get it next time'},
+    {s:'Your friend earns significantly more than you.', l:'Complicated feelings', r:'Completely fine'},
+    {s:"You're offered a higher salary but worse work-life balance.", l:'Take it', r:'Leave it'},
+    {l:'⏸Work to live', r:'Live to work'},
+    {l:'Remote work forever', r:'Office has its place'},
+    {l:'9-to-5 structure', r:'Flexible hours'},
+    {l:'Side hustle', r:'One job is enough'},
+    {l:'Ambitious', r:'Content'},
+    {l:'Start your own thing', r:'Build something within a company'},
+    {s:'Sunday evening feeling.', l:'Ready for the week', r:'Already dreading Monday'},
+    {s:'Your boss asks you to work over the weekend.', l:'Sure, if needed', r:'That\'s what Monday is for'},
+    {s:'Dream scenario in 10 years.', l:'Financial independence', r:'Doing work you love'},
+    {l:'Lots of friends', r:'Few close ones'},
+    {l:'Deep talks', r:'Easy banter'},
+    {l:'Be the host', r:'Be the guest'},
+    {l:'Hug hello', r:'Wave hello'},
+    {s:"There's a conflict.", l:'Address directly', r:'⏳ Wait for the right moment'},
+    {l:'Give advice', r:'Just listen'},
+    {l:'Stay in touch constantly', r:'Pick up where you left off'},
+    {s:'Someone at the table is being rude to the waiter.', l:'Say something', r:'Say nothing'},
+    {s:'Group chat is blowing up.', l:'Mute it immediately', r:'Stay on top of it'},
+    {l:'Read the news daily', r:'Avoid the news'},
+    {l:'One quality news source', r:'Multiple sources'},
+    {l:'Politically engaged', r:'‍Politics is exhausting'},
+    {l:'Vote in every election', r:'Voting doesn\'t change much'},
+    {s:'Someone shares a conspiracy theory at dinner.', l:'Engage', r:'↩Change the subject'},
+    {s:'The news is particularly bad today.', l:'Read it all', r:'Close the tab'},
+    {l:'Screen time under 3 hours', r:'Screen time is whatever'},
+    {l:'Social media daily', r:'Could take it or leave it'},
+    {l:'Post regularly', r:'Mostly lurk'},
+    {l:'Curated feed', r:'Chronological chaos'},
+    {l:'Real life first', r:'Document everything'},
+    {l:'Unfollow freely', r:'Keep everyone'},
+    {s:"Your phone battery is at 4%.", l:'Instant anxiety', r:'Fine, I\'ll find a charger'},
+    {s:"You've been doom-scrolling for 45 minutes.", l:'Close the app', r:'Just a few more minutes'},
+    {s:'Someone posts something you strongly disagree with.', l:'Comment', r:'Scroll past'},
+    {l:'Therapy is essential', r:'Deal with it yourself'},
+    {l:'Meditate', r:'Take a walk'},
+    {l:'Routines are comforting', r:'Routines are boring'},
+    {l:'Alone time is essential', r:'Too much alone time is dangerous'},
+    {l:'Sensitive', r:'Thick-skinned'},
+    {s:'Something is bothering you. Your first instinct.', l:'Talk about it', r:'Work through it alone'},
+    {s:'You made a mistake at work.', l:'Own it immediately', r:'Figure out how to fix it first'},
+    {l:'Optimist', r:'Realist'},
+    {l:'Glass half full', r:'Glass half empty'},
+    {l:'Trust people by default', r:'Trust has to be earned'},
+    {l:'Rules are there for a reason', r:'Rules are suggestions'},
+    {l:'Spontaneous', r:'Need to know the plan'},
+    {s:"Someone gives you honest feedback you didn't ask for.", l:'Grateful', r:'Defensive for a moment'},
+    {s:'You disagree with a close friend about something important.', l:'Address it', r:'Let it go'},
+    {l:'Own your home', r:'Rent forever'},
+    {l:'Urban apartment', r:'Space outside the city'},
+    {l:'Renovation project', r:'Move-in ready'},
+    {l:'Smart home gadgets', r:'Keep it simple'},
+    {s:'Your neighbour plays loud music at midnight.', l:'Knock on the door', r:'Put in earplugs'},
+    {s:"You're moving to a new city for a job.", l:'Exciting', r:'Terrifying'},
+    {s:'Ideal living situation in 10 years.', l:'House with a garden', r:'City apartment, walkable to everything'},
+    {l:'Eat organic when possible', r:'Eat what\'s available'},
+    {l:'Reduce, reuse, recycle', r:'Do your bit but don\'t stress'},
+    {l:'Fly less for the environment', r:'Flying is non-negotiable'},
+    {l:'Buy sustainable brands', r:'Price comes first'},
+    {l:'Vegetarian for the planet', r:'Individuals don\'t move the needle'},
+    {l:'Read physical books', r:'E-reader or audiobook'},
+    {l:'Fiction', r:'Non-fiction'},
+    {l:'Cinema', r:'Streaming at home'},
+    {l:'Binge it all at once', r:'One episode a week'},
+    {l:'Background TV', r:'Full attention or nothing'},
+    {s:'Cultural event on a Wednesday night. Starts at 8.', l:'Obviously', r:'Not tonight'},
+    {l:'Concerts', r:'Festivals'},
+    {l:'Gallery', r:'Museum'},
+    {l:'New restaurant', r:'⭐ Proven favourite'},
+    {l:'Trendy neighbourhood', r:'Established neighbourhood'},
+    {s:'The new place has a three-month waiting list.', l:'Join it', r:'Not worth the hype'},
+    {l:'Morning person who works out', r:'Night person who stays out'},
+    {l:'Healthy and a bit boring', r:'Chaotic but alive'},
+    {s:'Life philosophy.', l:'Everything in moderation', r:'Go all in or don\'t bother'},
+    {s:'In the end, what matters more?', l:'Depth', r:'Breadth'},
   ],
   Food: [
-    {l:'🍳 Cooking', r:'📱 Ordering in'},
-    {l:'🥂 Fancy restaurant', r:'🍺 Casual spot'},
-    {l:'🍣 Sushi', r:'🍕 Pizza'},
-    {l:'☕ Black coffee', r:'🧋 Oat latte'},
-    {l:'🥩 Meat', r:'🥦 Vegetarian'},
-    {l:'🍽️ Three courses', r:'🥘 Tapas to share'},
-    {l:'🥚 Scrambled eggs', r:'🍳 Fried eggs'},
-    {l:'🫖 Tea', r:'☕ Coffee'},
-    {l:'🍪 Cookies', r:'🎂 Cake'},
-    {l:'🍺 Beer', r:'🍷 Wine'},
-    {l:'🇹🇭 Thai', r:'🇮🇹 Italian'},
-    {l:'⚡ Fast food', r:'🐢 Slow food'},
-    {l:'🧂 Savory', r:'🍯 Sweet'},
-    {l:'🥐 Croissant', r:'🥯 Bagel'},
-    {l:'🍔 Burger', r:'🌮 Tacos'},
-    {l:'🫧 Sparkling water', r:'💧 Still water'},
-    {l:'🥗 Light meal', r:'🍝 Something filling'},
-    {l:'🌶️ Very spicy', r:'🫙 Mild please'},
-    {l:'🍫 Chocolate', r:'🍬 Gummies'},
-    {l:'🥘 Home cooked', r:'🍱 Takeaway box'},
+    {l:'Cooking', r:'Ordering in'},
+    {l:'Fancy restaurant', r:'Casual spot'},
+    {l:'Sushi', r:'Pizza'},
+    {l:'Black coffee', r:'Oat latte'},
+    {l:'Meat', r:'Vegetarian'},
+    {l:'Three courses', r:'Tapas to share'},
+    {l:'Scrambled eggs', r:'Fried eggs'},
+    {l:'Tea', r:'Coffee'},
+    {l:'Cookies', r:'Cake'},
+    {l:'Beer', r:'Wine'},
+    {l:'Thai', r:'Italian'},
+    {l:'Fast food', r:'Slow food'},
+    {l:'Savory', r:'Sweet'},
+    {l:'Croissant', r:'Bagel'},
+    {l:'Burger', r:'Tacos'},
+    {l:'Sparkling water', r:'Still water'},
+    {l:'Light meal', r:'Something filling'},
+    {l:'Very spicy', r:'Mild please'},
+    {l:'Chocolate', r:'Gummies'},
+    {l:'Home cooked', r:'Takeaway box'},
   ],
   Love: [
-    {l:'💌 Text first', r:'📞 Call first'},
-    {l:'🌹 Grand gestures', r:'🌿 Small everyday moments'},
-    {l:'🏠 Stay in date', r:'🌆 Go out date'},
-    {l:'💬 Talk about feelings', r:'🤐 Show through actions'},
-    {l:'💏 PDA', r:'🙈 Keep it private'},
-    {l:'🎁 Give gifts', r:'⏱️ Give time'},
-    {l:'🔑 Move in together early', r:'🏠 Keep own place longer'},
-    {l:'📲 Constant texting', r:'📵 Space to breathe'},
-    {l:'💍 Marriage', r:'🤝 Commitment without it'},
-    {l:'👶 Kids', r:'🐾 No kids'},
-    {l:'❤️ Fall fast', r:'🌱 Take it slow'},
-    {l:'🫂 Physical touch', r:'🗣️ Words of affirmation'},
-    {l:'📅 Plan dates', r:'✨ Spontaneous dates'},
-    {l:'🏖️ Couple trips', r:'🧍 Solo trips too'},
-    {l:'🎂 Big birthday fuss', r:'🙂 Low-key birthday'},
-    {l:'💑 Best friends first', r:'⚡ Chemistry first'},
-    {l:'🔓 Share everything', r:'🔐 Keep some things private'},
-    {l:'😴 Same sleep schedule', r:'🌙 Different schedules ok'},
-    {l:'🥂 Mark every anniversary', r:'📆 Just another day'},
-    {l:'🤳 Post about us online', r:'🙅 Keep it offline'},
+    {l:'Text first', r:'Call first'},
+    {l:'Grand gestures', r:'Small everyday moments'},
+    {l:'Stay in date', r:'Go out date'},
+    {l:'Talk about feelings', r:'Show through actions'},
+    {l:'PDA', r:'Keep it private'},
+    {l:'Give gifts', r:'⏱Give time'},
+    {l:'Move in together early', r:'Keep own place longer'},
+    {l:'Constant texting', r:'Space to breathe'},
+    {l:'Marriage', r:'Commitment without it'},
+    {l:'Kids', r:'No kids'},
+    {l:'Fall fast', r:'Take it slow'},
+    {l:'Physical touch', r:'Words of affirmation'},
+    {l:'Plan dates', r:'Spontaneous dates'},
+    {l:'Couple trips', r:'Solo trips too'},
+    {l:'Big birthday fuss', r:'Low-key birthday'},
+    {l:'Best friends first', r:'Chemistry first'},
+    {l:'Share everything', r:'Keep some things private'},
+    {l:'Same sleep schedule', r:'Different schedules ok'},
+    {l:'Mark every anniversary', r:'Just another day'},
+    {l:'Post about us online', r:'Keep it offline'},
   ],
   Music: [
-    {l:'🎸 Rock', r:'🎤 Pop'},
-    {l:'🎧 Headphones', r:'📢 Speakers'},
-    {l:'🌃 Live concert', r:'🏠 Streaming at home'},
-    {l:'🎼 Lyrics matter', r:'🥁 Beat matters'},
-    {l:'🎹 Classical', r:'🎷 Jazz'},
-    {l:'🎵 One genre', r:'🎶 All genres'},
-    {l:'📻 Radio', r:'🎧 Curated playlist'},
-    {l:'🎤 Karaoke', r:'🙅 Never karaoke'},
-    {l:'🔊 Loud', r:'🔈 Background music'},
-    {l:'🎻 Old classics', r:'🆕 New releases'},
-    {l:'🎙️ Podcasts', r:'🎵 Music only'},
-    {l:'🕺 Dance to it', r:'🧠 Really listen'},
-    {l:'💿 Full albums', r:'🎵 Just the singles'},
-    {l:'🪗 Acoustic', r:'⚡ Electronic'},
-    {l:'🎤 Follow the artist', r:'🎚️ Follow the producer'},
-    {l:'🎻 One instrument', r:'🎸 Full band'},
-    {l:'🌍 World music', r:'🏠 Local music'},
-    {l:'😭 Sad songs', r:'😄 Feel-good songs'},
-    {l:'🎪 Festival', r:'🎭 Intimate venue'},
-    {l:'🎵 Spotify', r:'🎶 Apple Music'},
+    {l:'Rock', r:'Pop'},
+    {l:'Headphones', r:'Speakers'},
+    {l:'Live concert', r:'Streaming at home'},
+    {l:'Lyrics matter', r:'Beat matters'},
+    {l:'Classical', r:'Jazz'},
+    {l:'One genre', r:'All genres'},
+    {l:'Radio', r:'Curated playlist'},
+    {l:'Karaoke', r:'Never karaoke'},
+    {l:'Loud', r:'Background music'},
+    {l:'Old classics', r:'New releases'},
+    {l:'Podcasts', r:'Music only'},
+    {l:'Dance to it', r:'Really listen'},
+    {l:'Full albums', r:'Just the singles'},
+    {l:'Acoustic', r:'Electronic'},
+    {l:'Follow the artist', r:'Follow the producer'},
+    {l:'One instrument', r:'Full band'},
+    {l:'World music', r:'Local music'},
+    {l:'Sad songs', r:'Feel-good songs'},
+    {l:'Festival', r:'Intimate venue'},
+    {l:'Spotify', r:'Apple Music'},
   ],
   Travel: [
-    {l:'🏖️ Beach', r:'⛰️ Mountains'},
-    {l:'✈️ Fly', r:'🚂 Train'},
-    {l:'🏨 Hotel', r:'🏕️ Camping'},
-    {l:'🗺️ Plan ahead', r:'🎲 Just go'},
-    {l:'🌍 Far away', r:'🏡 Close to home'},
-    {l:'🌆 City trip', r:'🌿 Nature escape'},
-    {l:'🍽️ Local food always', r:'🍔 Familiar comfort food'},
-    {l:'📸 Famous sights', r:'🔍 Hidden gems'},
-    {l:'🧳 Overpack', r:'👜 One carry-on'},
-    {l:'🛎️ All-inclusive', r:'🗺️ DIY adventure'},
-    {l:'🧑‍🤝‍🧑 Travel with friends', r:'🧍 Solo travel'},
-    {l:'🌞 Summer holiday', r:'❄️ Winter escape'},
-    {l:'🏛️ History & culture', r:'🎢 Fun & thrills'},
-    {l:'🛥️ Cruise', r:'🚐 Road trip'},
-    {l:'🌏 New destination every time', r:'🔁 Return to favorites'},
-    {l:'🌅 Sunrise hike', r:'🌃 Nightlife explorer'},
-    {l:'📖 Read about it before', r:'🚶 Explore on arrival'},
-    {l:'🛁 Luxury accommodation', r:'🛏️ Budget & spend elsewhere'},
-    {l:'🤝 Make friends abroad', r:'👫 Travel bubble only'},
-    {l:'🎒 Backpacker', r:'🧳 Comfort traveler'},
+    {l:'Beach', r:'Mountains'},
+    {l:'Fly', r:'Train'},
+    {l:'Hotel', r:'Camping'},
+    {l:'Plan ahead', r:'Just go'},
+    {l:'Far away', r:'Close to home'},
+    {l:'City trip', r:'Nature escape'},
+    {l:'Local food always', r:'Familiar comfort food'},
+    {l:'Famous sights', r:'Hidden gems'},
+    {l:'Overpack', r:'One carry-on'},
+    {l:'All-inclusive', r:'DIY adventure'},
+    {l:'‍‍Travel with friends', r:'Solo travel'},
+    {l:'Summer holiday', r:'Winter escape'},
+    {l:'History & culture', r:'Fun & thrills'},
+    {l:'Cruise', r:'Road trip'},
+    {l:'New destination every time', r:'Return to favorites'},
+    {l:'Sunrise hike', r:'Nightlife explorer'},
+    {l:'Read about it before', r:'Explore on arrival'},
+    {l:'Luxury accommodation', r:'Budget & spend elsewhere'},
+    {l:'Make friends abroad', r:'Travel bubble only'},
+    {l:'Backpacker', r:'Comfort traveler'},
   ],
   Culture: [
-    {l:'😂 Comedy', r:'😰 Thriller'},
-    {l:'🎬 Cinema', r:'🛋️ Sofa stream'},
-    {l:'🦸 Blockbuster', r:'🎭 Arthouse'},
-    {l:'🔮 Fantasy', r:'🚀 Sci-Fi'},
-    {l:'😢 Sad ending', r:'😊 Happy ending'},
-    {l:'📺 Series', r:'🎬 Films'},
-    {l:'🎮 Gaming', r:'📚 Reading'},
-    {l:'🎭 Theater', r:'🎤 Stand-up comedy'},
-    {l:'🔊 True crime', r:'📖 Literary fiction'},
-    {l:'📡 Documentary', r:'🤣 Reality TV'},
-    {l:'🗓️ One episode a week', r:'📦 Binge it all'},
-    {l:'🖼️ Art museum', r:'🔬 Science museum'},
-    {l:'📰 Read the news', r:'🎙️ Hear the news'},
-    {l:'📖 Physical books', r:'📱 E-reader'},
-    {l:'🎨 Contemporary art', r:'🏛️ Classical art'},
-    {l:'🌍 Foreign films', r:'🏠 Domestic films'},
-    {l:'✍️ Fiction', r:'📋 Non-fiction'},
-    {l:'🎪 Go to an exhibition', r:'🏠 Watch a doc instead'},
-    {l:'🃏 Board games', r:'🕹️ Video games'},
-    {l:'🎬 Director fan', r:'⭐ Actor fan'},
+    {l:'Comedy', r:'Thriller'},
+    {l:'Cinema', r:'Sofa stream'},
+    {l:'Blockbuster', r:'Arthouse'},
+    {l:'Fantasy', r:'Sci-Fi'},
+    {l:'Sad ending', r:'Happy ending'},
+    {l:'Series', r:'Films'},
+    {l:'Gaming', r:'Reading'},
+    {l:'Theater', r:'Stand-up comedy'},
+    {l:'True crime', r:'Literary fiction'},
+    {l:'Documentary', r:'Reality TV'},
+    {l:'One episode a week', r:'Binge it all'},
+    {l:'Art museum', r:'Science museum'},
+    {l:'Read the news', r:'Hear the news'},
+    {l:'Physical books', r:'E-reader'},
+    {l:'Contemporary art', r:'Classical art'},
+    {l:'Foreign films', r:'Domestic films'},
+    {l:'Fiction', r:'Non-fiction'},
+    {l:'Go to an exhibition', r:'Watch a doc instead'},
+    {l:'Board games', r:'Video games'},
+    {l:'Director fan', r:'⭐ Actor fan'},
   ],
   Sports: [
-    {l:'⚽ Football', r:'🏀 Basketball'},
-    {l:'🏊 Swimming', r:'🏃 Running'},
-    {l:'📺 Watch sport', r:'🤸 Play sport'},
-    {l:'🏋️ Gym', r:'🧘 Yoga'},
-    {l:'🤝 Team sport', r:'🏃 Solo sport'},
-    {l:'🌅 Morning workout', r:'🌙 Evening workout'},
-    {l:'🏆 Competitive', r:'🎉 Just for fun'},
-    {l:'⛷️ Winter sport', r:'🏄 Summer sport'},
-    {l:'🎯 Precision', r:'💨 Speed'},
-    {l:'🌿 Outdoors', r:'🏢 Indoors'},
-    {l:'🎾 Tennis', r:'🏸 Badminton'},
-    {l:'🧗 Climbing', r:'🚴 Cycling'},
-    {l:'🥊 Boxing', r:'🥋 Martial arts'},
-    {l:'📊 Stats & tactics', r:'❤️ Pure passion'},
-    {l:'🏟️ Stadium atmosphere', r:'📺 Couch & snacks'},
-    {l:'🥤 Energy drink', r:'💧 Just water'},
-    {l:'👟 Train every day', r:'🛋️ Train when I feel like it'},
-    {l:'🏅 Enter competitions', r:'🙅 Never compete'},
-    {l:'🤸 Stretch & warm up', r:'⚡ Jump straight in'},
-    {l:'🎽 Proper kit', r:'👕 Whatever fits'},
+    {l:'Football', r:'Basketball'},
+    {l:'Swimming', r:'Running'},
+    {l:'Watch sport', r:'Play sport'},
+    {l:'Gym', r:'Yoga'},
+    {l:'Team sport', r:'Solo sport'},
+    {l:'Morning workout', r:'Evening workout'},
+    {l:'Competitive', r:'Just for fun'},
+    {l:'Winter sport', r:'Summer sport'},
+    {l:'Precision', r:'Speed'},
+    {l:'Outdoors', r:'Indoors'},
+    {l:'Tennis', r:'Badminton'},
+    {l:'Climbing', r:'Cycling'},
+    {l:'Boxing', r:'Martial arts'},
+    {l:'Stats & tactics', r:'Pure passion'},
+    {l:'Stadium atmosphere', r:'Couch & snacks'},
+    {l:'Energy drink', r:'Just water'},
+    {l:'Train every day', r:'Train when I feel like it'},
+    {l:'Enter competitions', r:'Never compete'},
+    {l:'Stretch & warm up', r:'Jump straight in'},
+    {l:'Proper kit', r:'Whatever fits'},
   ],
   Values: [
-    {l:'🔒 Security', r:'🌊 Freedom'},
-    {l:'🏠 Roots & stability', r:'✈️ Change & adventure'},
-    {l:'👨‍👩‍👧 Family first', r:'🧍 Self first'},
-    {l:'💼 Career driven', r:'⏸️ Work to live'},
-    {l:'💰 Financial success', r:'😊 Personal happiness'},
-    {l:'🌱 Environment first', r:'📈 Progress first'},
-    {l:'🤝 Loyalty above all', r:'🔓 Honesty above all'},
-    {l:'🧠 Head', r:'❤️ Heart'},
-    {l:'📜 Tradition', r:'🆕 Innovation'},
-    {l:'🌍 Think global', r:'🏡 Act local'},
-    {l:'🎯 Achievement', r:'🌿 Contentment'},
-    {l:'⚖️ Justice', r:'🕊️ Peace'},
-    {l:'🗳️ Civic duty', r:'🙏 Personal morality'},
-    {l:'💪 Self-reliance', r:'🤲 Community'},
-    {l:'🔬 Science & reason', r:'🌌 Intuition & spirit'},
-    {l:'📣 Speak your mind', r:'🤫 Choose your battles'},
-    {l:'⚡ Move fast, fix later', r:'🐢 Get it right first time'},
-    {l:'🎭 Principles over pragmatism', r:'🔧 Pragmatism wins'},
-    {l:'🧒 Kids need structure', r:'🌈 Kids need freedom'},
-    {l:'💊 Duty to be healthy', r:'🍕 My body my choice'},
+    {l:'Security', r:'Freedom'},
+    {l:'Roots & stability', r:'Change & adventure'},
+    {l:'‍‍Family first', r:'Self first'},
+    {l:'Career driven', r:'⏸Work to live'},
+    {l:'Financial success', r:'Personal happiness'},
+    {l:'Environment first', r:'Progress first'},
+    {l:'Loyalty above all', r:'Honesty above all'},
+    {l:'Head', r:'Heart'},
+    {l:'Tradition', r:'Innovation'},
+    {l:'Think global', r:'Act local'},
+    {l:'Achievement', r:'Contentment'},
+    {l:'Justice', r:'Peace'},
+    {l:'Civic duty', r:'Personal morality'},
+    {l:'Self-reliance', r:'Community'},
+    {l:'Science & reason', r:'Intuition & spirit'},
+    {l:'Speak your mind', r:'Choose your battles'},
+    {l:'Move fast, fix later', r:'Get it right first time'},
+    {l:'Principles over pragmatism', r:'Pragmatism wins'},
+    {l:'Kids need structure', r:'Kids need freedom'},
+    {l:'Duty to be healthy', r:'My body my choice'},
   ],
   People: [
-    {l:'👯 Many friends', r:'💎 Few close ones'},
-    {l:'🆕 Meet new people', r:'🔁 Stick with who you know'},
-    {l:'💬 Deep talks', r:'😄 Easy banter'},
-    {l:'🎉 Be the host', r:'🙌 Be the guest'},
-    {l:'📞 Keep in touch often', r:'🌊 Pick up where you left off'},
-    {l:'😤 Address conflict directly', r:'😌 Let it go'},
-    {l:'🤗 Hug hello', r:'👋 Wave hello'},
-    {l:'🧠 Smart friends', r:'😂 Funny friends'},
-    {l:'🫂 Emotionally supportive', r:'🛠️ Practically helpful'},
-    {l:'🎂 Remember every birthday', r:'🙈 Terrible with dates'},
-    {l:'🗣️ Advice giver', r:'👂 Listener'},
-    {l:'🌍 International circle', r:'🏘️ Local community'},
-    {l:'📱 Always reachable', r:'🔕 Respond when I can'},
-    {l:'🤝 Colleague can become friend', r:'📂 Keep work & life separate'},
-    {l:'😶 Need time to open up', r:'😊 Open book immediately'},
-    {l:'🥂 Celebrate everything', r:'🙂 Low-key by default'},
-    {l:'🎭 Friend group hangout', r:'☕ One on one'},
-    {l:'🤳 Share life online', r:'🔒 Keep it private'},
-    {l:'💸 Split everything equally', r:'🎁 Whoever earns more pays more'},
-    {l:'🧳 Some things I do alone', r:'👫 Everything together'},
+    {l:'Many friends', r:'Few close ones'},
+    {l:'Meet new people', r:'Stick with who you know'},
+    {l:'Deep talks', r:'Easy banter'},
+    {l:'Be the host', r:'Be the guest'},
+    {l:'Keep in touch often', r:'Pick up where you left off'},
+    {l:'Address conflict directly', r:'Let it go'},
+    {l:'Hug hello', r:'Wave hello'},
+    {l:'Smart friends', r:'Funny friends'},
+    {l:'Emotionally supportive', r:'Practically helpful'},
+    {l:'Remember every birthday', r:'Terrible with dates'},
+    {l:'Advice giver', r:'Listener'},
+    {l:'International circle', r:'Local community'},
+    {l:'Always reachable', r:'Respond when I can'},
+    {l:'Colleague can become friend', r:'Keep work & life separate'},
+    {l:'Need time to open up', r:'Open book immediately'},
+    {l:'Celebrate everything', r:'Low-key by default'},
+    {l:'Friend group hangout', r:'One on one'},
+    {l:'Share life online', r:'Keep it private'},
+    {l:'Split everything equally', r:'Whoever earns more pays more'},
+    {l:'Some things I do alone', r:'Everything together'},
   ],
   Future: [
-    {l:'🤖 AI will save us', r:'⚠️ AI is dangerous'},
-    {l:'🚀 Mars colony is exciting', r:'🌍 Fix Earth first'},
-    {l:'♾️ Live forever if you could', r:'🌿 Natural lifespan is enough'},
-    {l:'🧬 Edit your genes', r:'🙅 Leave nature alone'},
-    {l:'🏙️ Megacities', r:'🌾 Back to nature'},
-    {l:'⚡ Tech optimist', r:'🌧️ Tech pessimist'},
-    {l:'🤝 Universal basic income', r:'💼 Work for what you earn'},
-    {l:'🌐 One world government', r:'🗺️ Nations stay separate'},
-    {l:'🧠 Upload your mind', r:'💀 Death is part of life'},
-    {l:'🚗 Self-driving everywhere', r:'🚶 I\'ll drive myself'},
-    {l:'🏥 Designer babies ok', r:'🙏 Not for humans to decide'},
-    {l:'🌱 Veganism saves the planet', r:'🥩 Technology saves the planet'},
-    {l:'🤖 Robots do all the work', r:'🙌 Humans need meaningful work'},
-    {l:'📡 Contact aliens', r:'🤫 Maybe don\'t'},
-    {l:'💊 Enhance your brain', r:'🧘 Train your brain naturally'},
-    {l:'🌊 Climate change is solvable', r:'😰 Climate change is irreversible'},
-    {l:'🏫 School should teach coding', r:'🎨 School should teach creativity'},
-    {l:'🌍 Open borders', r:'🛂 Controlled immigration'},
-    {l:'⚛️ Nuclear energy is the answer', r:'☀️ Renewables only'},
-    {l:'📵 Kids should have no phones', r:'📱 Digital literacy from young'},
+    {l:'AI will save us', r:'AI is dangerous'},
+    {l:'Mars colony is exciting', r:'Fix Earth first'},
+    {l:'Live forever if you could', r:'Natural lifespan is enough'},
+    {l:'Edit your genes', r:'Leave nature alone'},
+    {l:'Megacities', r:'Back to nature'},
+    {l:'Tech optimist', r:'Tech pessimist'},
+    {l:'Universal basic income', r:'Work for what you earn'},
+    {l:'One world government', r:'Nations stay separate'},
+    {l:'Upload your mind', r:'Death is part of life'},
+    {l:'Self-driving everywhere', r:'I\'ll drive myself'},
+    {l:'Designer babies ok', r:'Not for humans to decide'},
+    {l:'Veganism saves the planet', r:'Technology saves the planet'},
+    {l:'Robots do all the work', r:'Humans need meaningful work'},
+    {l:'Contact aliens', r:'Maybe don\'t'},
+    {l:'Enhance your brain', r:'Train your brain naturally'},
+    {l:'Climate change is solvable', r:'Climate change is irreversible'},
+    {l:'School should teach coding', r:'School should teach creativity'},
+    {l:'Open borders', r:'Controlled immigration'},
+    {l:'Nuclear energy is the answer', r:'Renewables only'},
+    {l:'Kids should have no phones', r:'Digital literacy from young'},
   ],
 }
 
@@ -1618,7 +1613,7 @@ function getRandomQuestions() {
   ALL_CATEGORIES.forEach(cat => {
     QUESTIONS[cat].forEach(q => pool.push({...q, _cat: cat}));
   });
-  return shuffleSides(pool.sort(() => Math.random() - 0.5).slice(0, 20));
+  return shuffleSides(pool.sort(() => Math.random() - 0.5).slice(0, 30));
 }
 
 // Popular: questions sorted by likes (stored in localStorage)
@@ -1632,15 +1627,10 @@ function getPopularQuestions() {
     });
   });
   pool.sort((a, b) => b._likes - a._likes);
-  const top = pool.slice(0, 20);
+  const top = pool.slice(0, 30);
   return top;
 }
 
-const CATEGORY_EMOJI = {
-  Lifestyle:'✨', Food:'🍕', Love:'💘', Music:'🎵',
-  Travel:'✈️', Culture:'🎭', Sports:'⚽', Values:'🧭',
-  People:'🤝', Future:'🚀', Random:'🎲', Popular:'🔥'
-};
 
 let currentCat = 'Food';
 let questions = [];
@@ -1682,7 +1672,7 @@ window.onload = function() {
     } else if (answersA && !answersB) {
       currentIdx = 0;
       myAnswers = [];
-      document.getElementById('quiz-cat-label').textContent = CATEGORY_EMOJI[currentCat] + ' ' + currentCat;
+      document.getElementById('quiz-cat-label').textContent = currentCat;
       renderQuestion();
       show('screen-quiz');
     }
@@ -1706,7 +1696,7 @@ function startQuiz() {
   } else if (currentCat === 'Popular') {
     questions = shuffleSides(getPopularQuestions());
   } else {
-    const picked = [...QUESTIONS[currentCat]].sort(() => Math.random() - 0.5).slice(0, Math.min(20, QUESTIONS[currentCat].length));
+    const picked = [...QUESTIONS[currentCat]].sort(() => Math.random() - 0.5).slice(0, Math.min(30, QUESTIONS[currentCat].length));
     questions = shuffleSides(picked);
   }
 
@@ -1715,7 +1705,7 @@ function startQuiz() {
   isPersonB = false;
   matchId = null;
 
-  document.getElementById('quiz-cat-label').textContent = CATEGORY_EMOJI[currentCat] + ' ' + currentCat;
+  document.getElementById('quiz-cat-label').textContent = currentCat;
   renderQuestion();
   show('screen-quiz');
 }
@@ -1724,24 +1714,14 @@ function startQuiz() {
 
 function renderQuestion() {
   const q = questions[currentIdx];
-  const [lEmoji, lText] = parseOption(q.l);
-  const [rEmoji, rText] = parseOption(q.r);
 
-  const leftEmoji = document.getElementById('opt-left-emoji');
-  const rightEmoji = document.getElementById('opt-right-emoji');
-  leftEmoji.textContent = lEmoji;
-  leftEmoji.style.display = (showEmojis && lEmoji) ? 'block' : 'none';
-  document.getElementById('opt-left-text').textContent = lText;
-  rightEmoji.textContent = rEmoji;
-  rightEmoji.style.display = (showEmojis && rEmoji) ? 'block' : 'none';
-  document.getElementById('opt-right-text').textContent = rText;
+  document.getElementById('opt-left-text').textContent = q.l;
+  document.getElementById('opt-right-text').textContent = q.r;
   const setupEl = document.getElementById('card-setup');
   if (q.s) {
     setupEl.textContent = q.s;
-    setupEl.style.opacity = '1';
   } else {
     setupEl.textContent = "What's more you?";
-    setupEl.style.opacity = '0.55';
   }
   document.getElementById('quiz-counter').textContent = (currentIdx+1) + ' / ' + questions.length;
   document.getElementById('progress-fill').style.width = ((currentIdx+1)/questions.length*100) + '%';
@@ -1756,8 +1736,8 @@ function renderQuestion() {
   document.getElementById('opt-right').className = 'opt';
 
   // Reset hints
-  document.getElementById('hint-left').textContent = '← ' + lText.split(' ').slice(-1)[0];
-  document.getElementById('hint-right').textContent = rText.split(' ').slice(-1)[0] + ' →';
+  document.getElementById('hint-left').textContent = '← ' + q.l.split(' ').slice(-1)[0];
+  document.getElementById('hint-right').textContent = q.r.split(' ').slice(-1)[0] + ' →';
 
   // Reset card
   card = document.getElementById('question-card');
@@ -1769,23 +1749,6 @@ function renderQuestion() {
   card.classList.add('card-animate-in');
 
   setupDrag();
-}
-
-let showEmojis = true;
-
-function toggleEmojis(btn) {
-  btn.classList.toggle('on');
-  showEmojis = btn.classList.contains('on');
-  localStorage.setItem('show_emojis', showEmojis ? '1' : '0');
-  if (questions.length > 0 && currentIdx < questions.length) renderQuestion();
-}
-
-function parseOption(str) {
-  const match = str.match(/^([\u{1F300}-\u{1FFFF}][\uFE0F]?\s*)/u);
-  if (match) {
-    return [match[0].trim(), str.slice(match[0].length).trim()];
-  }
-  return ['', str];
 }
 
 function answer(choice) {
@@ -1936,8 +1899,6 @@ function showResultsForBoth(match) {
   match.questions.forEach((q, i) => {
     const me = answersA[i];
     const friend = answersB[i];
-    const [lEmoji, lText] = parseOption(q.l);
-    const [rEmoji, rText] = parseOption(q.r);
 
     let status;
     if (me === 'skip' && friend === 'skip') {
@@ -1950,8 +1911,8 @@ function showResultsForBoth(match) {
       else status = 'nomatch';
     }
 
-    const meText = me === 'left' ? lEmoji+' '+lText : me === 'right' ? rEmoji+' '+rText : '–';
-    const friendText = friend === 'left' ? lEmoji+' '+lText : friend === 'right' ? rEmoji+' '+rText : '–';
+    const meText = me === 'left' ? q.l : me === 'right' ? q.r : '–';
+    const friendText = friend === 'left' ? q.l : friend === 'right' ? q.r : '–';
 
     resultItems.push({ meText, friendText, status });
   });
@@ -1962,10 +1923,10 @@ function showResultsForBoth(match) {
   document.getElementById('match-pct').textContent = pct + '%';
 
   let verdict, desc;
-  if (pct >= 80) { verdict = '🎉 Amazing Match!'; desc = 'You two are basically the same person. So much to talk about!'; }
-  else if (pct >= 60) { verdict = '✨ Great Match!'; desc = 'You have a lot in common – but also enough differences to keep things interesting.'; }
-  else if (pct >= 40) { verdict = '🤝 Solid Match'; desc = 'Some shared ground, some differences. A perfect recipe for good conversation!'; }
-  else { verdict = '🌶️ Opposites!'; desc = 'You see the world very differently. But opposites attract, right?'; }
+  if (pct >= 80) { verdict = 'Amazing Match!'; desc = 'You two are basically the same person. So much to talk about!'; }
+  else if (pct >= 60) { verdict = 'Great Match!'; desc = 'You have a lot in common – but also enough differences to keep things interesting.'; }
+  else if (pct >= 40) { verdict = 'Solid Match'; desc = 'Some shared ground, some differences. A perfect recipe for good conversation!'; }
+  else { verdict = 'Opposites!'; desc = 'You see the world very differently. But opposites attract, right?'; }
 
   document.getElementById('match-verdict').textContent = verdict;
   document.getElementById('match-desc').textContent = desc;
@@ -1987,7 +1948,7 @@ function showResultsForBoth(match) {
       <div class="result-a${item.status === 'match' ? ' winner' : ''}">${item.meText}</div>
       <div class="result-dot dot-${item.status}"></div>
       <div class="result-b${item.status === 'match' ? ' winner' : ''}">${item.friendText}</div>
-      <button class="result-chat-btn" onclick="openChatFromResult(${i})" title="Start a conversation about this">💬</button>
+      <button class="result-chat-btn" onclick="openChatFromResult(${i})" title="Start a conversation about this">chat</button>
     </div>
   `).join('');
 
@@ -2150,7 +2111,7 @@ function answerClick(side) {
 function likeQuestion() {
   const btn = document.getElementById('like-btn');
   btn.classList.add('liked');
-  btn.textContent = '👍';
+  
   // Store like in localStorage
   const q = questions[currentIdx];
   if (q) {
@@ -2203,10 +2164,10 @@ function submitNewQuestion() {
   // Inject as next question, trim from end to keep total at 20
   if (questions.length > 0 && currentIdx < questions.length) {
     questions.splice(currentIdx + 1, 0, newQ);
-    if (questions.length > 20) questions.splice(20, questions.length - 20);
+    if (questions.length > 30) questions.splice(30, questions.length - 30);
   }
   closeNewQuestionModal();
-  showToast('Question added — comes up next! 🎉');
+  showToast('Question added — comes up next!');
 }
 
 function showToast(msg) {
@@ -2310,7 +2271,7 @@ function renderMatches() {
   const body = document.getElementById('matches-body');
   const history = JSON.parse(localStorage.getItem('match_history') || '[]');
   if (history.length === 0) {
-    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-title">No matches yet</div><div class="empty-state-sub">Complete a quiz and share your link to see your first match here!</div></div>`;
+    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon" style="font-size:0;"></div><div class="empty-state-title">No matches yet</div><div class="empty-state-sub">Complete a quiz and share your link to see your first match here!</div></div>`;
     return;
   }
 
@@ -2340,14 +2301,14 @@ function renderMatches() {
         }
         return `
         <div class="match-list-item" onclick="openMatchDetail(${m.historyIdx})">
-          <div class="match-cat-icon">${CATEGORY_EMOJI[m.cat] || '🎯'}</div>
+          <div class="match-cat-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;">${m.cat}</div>
           <div class="match-info">
             <div class="match-info-title">${m.cat}</div>
             <div class="match-info-sub">${m.date}</div>
           </div>
           <div class="match-pct-badge" style="color:${displayPct>=60?'var(--match)':displayPct>=40?'var(--ink)':'var(--accent)'}">${displayPct}%</div>
           <button onclick="event.stopPropagation();openChatForPerson('${person}')" 
-            style="width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(26,20,16,0.2);background:transparent;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">💬</button>
+            style="width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(26,20,16,0.2);background:transparent;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">chat</button>
         </div>`;
       }).join('')}
     </div>
@@ -2369,12 +2330,12 @@ function renderMessages() {
   const body = document.getElementById('messages-body');
   const convos = JSON.parse(localStorage.getItem('conversations') || '[]');
   if (convos.length === 0) {
-    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💌</div><div class="empty-state-title">No messages yet</div><div class="empty-state-sub">Tap 💬 next to any match result to start chatting!</div></div>`;
+    body.innerHTML = `<div class="empty-state"><div class="empty-state-icon" style="font-size:0;"></div><div class="empty-state-title">No messages yet</div><div class="empty-state-sub">Tap "chat" next to any match result to start chatting!</div></div>`;
     return;
   }
   body.innerHTML = convos.map((c, i) => `
     <div class="msg-list-item" onclick="openChat(${i})">
-      <div class="msg-avatar">${c.avatar || '😊'}</div>
+      <div class="msg-avatar" style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;">${c.name.slice(0,1).toUpperCase()}</div>
       <div class="msg-info">
         <div class="msg-name">${c.name}</div>
         <div class="msg-preview">${c.lastMsg || 'Say hi!'}</div>
@@ -2396,7 +2357,7 @@ function getOrCreateConvo(personName, context) {
     localStorage.setItem('conversations', JSON.stringify(convos));
   }
   if (idx < 0) {
-    convos.push({ name: personName, avatar: '😊', messages: [], lastMsg: '', lastTime: '', ...context });
+    convos.push({ name: personName, avatar: '', messages: [], lastMsg: '', lastTime: '', ...context });
     idx = convos.length - 1;
     localStorage.setItem('conversations', JSON.stringify(convos));
   }
@@ -2429,21 +2390,19 @@ function openChat(idx, prefillQuestion) {
   currentConvoIdx = idx;
 
   document.getElementById('chat-name').textContent = c.name;
-  document.getElementById('chat-avatar').textContent = c.avatar || '😊';
+  document.getElementById('chat-avatar').textContent = c.name.slice(0,1).toUpperCase();
   const matchPct = c.matchPct !== undefined && c.matchPct !== null ? c.matchPct : (currentMatchData ? parseInt(document.getElementById('match-pct')?.textContent) || null : null);
   document.getElementById('chat-match-info').textContent = c.matchCat ? (matchPct !== null ? matchPct + '% match · ' : '') + c.matchCat : '';
 
   const msgs = document.getElementById('chat-messages');
   msgs.innerHTML = c.messages.length
     ? c.messages.map(m => `<div class="chat-bubble ${m.from === 'me' ? 'me' : 'them'}">${m.text}</div>`).join('')
-    : '<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">Say hi! 👋</div>';
+    : '<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px;">Say hi!</div>';
   msgs.scrollTop = msgs.scrollHeight;
 
   // Pre-fill input if coming from a result row
   if (prefillQuestion) {
-    const [, lText] = parseOption(prefillQuestion.l);
-    const [, rText] = parseOption(prefillQuestion.r);
-    document.getElementById('chat-input').value = `${lText} or ${rText} – let's talk about this.`;
+    document.getElementById('chat-input').value = `${prefillQuestion.l} or ${prefillQuestion.r} – let's talk about this.`;
   }
 
   openPanel('panel-chat');
@@ -2574,14 +2533,6 @@ function checkAuth() {
     document.getElementById('screen-auth').classList.add('hidden');
     updateUserBadge();
   }
-  // else auth screen stays visible (it's shown by default)
-  // Load emoji preference
-  const savedEmoji = localStorage.getItem('show_emojis');
-  if (savedEmoji === '0') {
-    showEmojis = false;
-    const toggle = document.getElementById('emoji-toggle');
-    if (toggle) toggle.classList.remove('on');
-  }
 }
 
 
@@ -2627,7 +2578,7 @@ function doChangePassword() {
   users[user.email].password = newPw;
   localStorage.setItem('alike_users', JSON.stringify(users));
   document.getElementById('screen-auth').classList.add('hidden');
-  showToast('Password updated! ✅');
+  showToast('Password updated!');
 }
 
 function openQuestionEditor() {
@@ -2666,7 +2617,7 @@ function saveEditedQuestion(cat, idx) {
     edits[cat][idx] = { l, r };
     localStorage.setItem('question_edits', JSON.stringify(edits));
   } catch(e) {}
-  showToast('Saved ✅');
+  showToast('Saved');
 }
 
 function clearMatchHistory() {
@@ -2714,7 +2665,7 @@ function doLogout() {
     <div class="drawer-section-title">Menu</div>
 
     <div class="drawer-item active" onclick="navTo('home')">
-      <div class="drawer-icon">🏠</div>
+      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">HOME</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Home</div>
         <div class="drawer-item-sub">Pick a category & play</div>
@@ -2722,7 +2673,7 @@ function doLogout() {
     </div>
 
     <div class="drawer-item" onclick="navTo('matches')">
-      <div class="drawer-icon">✅</div>
+      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">MATCH</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Matches</div>
         <div class="drawer-item-sub">Your match history</div>
@@ -2731,7 +2682,7 @@ function doLogout() {
     </div>
 
     <div class="drawer-item" onclick="navTo('messages')">
-      <div class="drawer-icon">💬</div>
+      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">MSG</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Messages</div>
         <div class="drawer-item-sub">Chat with your matches</div>
@@ -2742,7 +2693,7 @@ function doLogout() {
     <div class="drawer-section-title" style="margin-top:8px;">More</div>
 
     <div class="drawer-item" onclick="navTo('settings')">
-      <div class="drawer-icon">⚙️</div>
+      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">SET</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Settings</div>
         <div class="drawer-item-sub">Notifications, account…</div>
@@ -2750,18 +2701,18 @@ function doLogout() {
     </div>
   </nav>
 
-  <div class="drawer-footer">Alike · Built with ❤️</div>
+  <div class="drawer-footer">Alike · v1</div>
 </div>
 
 <!-- ── MATCHES PANEL ── -->
 <div class="panel-screen" id="panel-matches">
   <div class="panel-header">
     <button class="panel-back" onclick="closePanel('panel-matches')">←</button>
-    <div class="panel-title">✅ Matches</div>
+    <div class="panel-title">Matches</div>
   </div>
   <div class="panel-body" id="matches-body">
     <div class="empty-state">
-      <div class="empty-state-icon">🎯</div>
+      <div class="empty-state-icon" style="font-size:0;"></div>
       <div class="empty-state-title">No matches yet</div>
       <div class="empty-state-sub">Complete a quiz and share your link with a friend to see your first match here!</div>
     </div>
@@ -2772,11 +2723,11 @@ function doLogout() {
 <div class="panel-screen" id="panel-messages">
   <div class="panel-header">
     <button class="panel-back" onclick="closePanel('panel-messages')">←</button>
-    <div class="panel-title">💬 Messages</div>
+    <div class="panel-title">Messages</div>
   </div>
   <div class="panel-body" id="messages-body">
     <div class="empty-state">
-      <div class="empty-state-icon">💌</div>
+      <div class="empty-state-icon" style="font-size:0;"></div>
       <div class="empty-state-title">No messages yet</div>
       <div class="empty-state-sub">After matching with a friend, you can start a conversation here!</div>
     </div>
@@ -2787,7 +2738,7 @@ function doLogout() {
 <div class="panel-screen" id="panel-chat" style="display:flex; flex-direction:column;">
   <div class="chat-header">
     <button class="panel-back" onclick="closePanel('panel-chat')">←</button>
-    <div class="msg-avatar" id="chat-avatar">😊</div>
+    <div class="msg-avatar" id="chat-avatar" style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;">?</div>
     <div style="flex:1;">
       <div class="panel-title" id="chat-name" style="font-size:17px;">Friend</div>
       <div style="font-size:11px; color:var(--muted);" id="chat-match-info">— % match</div>
@@ -2808,66 +2759,61 @@ function doLogout() {
 <div class="panel-screen" id="panel-settings">
   <div class="panel-header">
     <button class="panel-back" onclick="closePanel('panel-settings')">←</button>
-    <div class="panel-title">⚙️ Settings</div>
+    <div class="panel-title">Settings</div>
   </div>
   <div class="panel-body">
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon">🔔</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">NOT</div>
         <div class="settings-item-label">Notifications</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">🌙</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">DRK</div>
         <div class="settings-item-label">Dark Mode</div>
         <button class="settings-toggle" onclick="this.classList.toggle('on')"></button>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">🔊</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">SND</div>
         <div class="settings-item-label">Sound Effects</div>
         <button class="settings-toggle on" onclick="this.classList.toggle('on')"></button>
-      </div>
-      <div class="settings-item">
-        <div class="settings-item-icon">😀</div>
-        <div class="settings-item-label">Show Emojis</div>
-        <button class="settings-toggle on" id="emoji-toggle" onclick="toggleEmojis(this)"></button>
       </div>
     </div>
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon">👤</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">USR</div>
         <div class="settings-item-label">Display Name</div>
         <div class="settings-item-value" id="settings-username">You</div>
       </div>
       <div class="settings-item" style="cursor:pointer;" onclick="openQuestionEditor()">
-        <div class="settings-item-icon">✏️</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">EDIT</div>
         <div class="settings-item-label">Edit Questions</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item" style="cursor:pointer;" onclick="openChangePassword()">
-        <div class="settings-item-icon">🔑</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">PWD</div>
         <div class="settings-item-label">Change Password</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">🚪</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">OUT</div>
         <div class="settings-item-label">Log out</div>
         <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="doLogout()">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">🗑️</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">CLR</div>
         <div class="settings-item-label">Clear Match History</div>
         <div class="settings-item-value" style="color:var(--nomatch);cursor:pointer;" onclick="clearMatchHistory()">Clear</div>
       </div>
     </div>
     <div class="settings-section">
       <div class="settings-item">
-        <div class="settings-item-icon">⭐</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">RATE</div>
         <div class="settings-item-label">Rate Alike</div>
         <div class="settings-item-value">→</div>
       </div>
       <div class="settings-item">
-        <div class="settings-item-icon">📨</div>
+        <div class="settings-item-icon" style="font-size:11px;font-family:Syne,sans-serif;font-weight:800;">FBK</div>
         <div class="settings-item-label">Send Feedback</div>
         <div class="settings-item-value">→</div>
       </div>
@@ -2879,21 +2825,21 @@ function doLogout() {
 <div class="panel-screen" id="panel-edit-questions">
   <div class="panel-header">
     <button class="panel-back" onclick="closePanel('panel-edit-questions')">←</button>
-    <div class="panel-title">✏️ Edit Questions</div>
+    <div class="panel-title">Edit Questions</div>
   </div>
   <div class="panel-body">
     <div style="margin-bottom:12px;">
       <select class="modal-cat-select" id="edit-q-cat" onchange="renderEditList()" style="width:100%;padding:10px 12px;border-radius:12px;border:2px solid rgba(26,20,16,0.2);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--card);">
-        <option value="Lifestyle">✨ Lifestyle</option>
-        <option value="Food">🍕 Food</option>
-        <option value="Love">💘 Love</option>
-        <option value="Music">🎵 Music</option>
-        <option value="Travel">✈️ Travel</option>
-        <option value="Culture">🎭 Culture</option>
-        <option value="Sports">⚽ Sports</option>
-        <option value="Values">🧭 Values</option>
-        <option value="People">🤝 People</option>
-        <option value="Future">🚀 Future</option>
+        <option value="Lifestyle">Lifestyle</option>
+        <option value="Food">Food</option>
+        <option value="Love">Love</option>
+        <option value="Music">Music</option>
+        <option value="Travel">Travel</option>
+        <option value="Culture">Culture</option>
+        <option value="Sports">Sports</option>
+        <option value="Values">Values</option>
+        <option value="People">People</option>
+        <option value="Future">Future</option>
       </select>
     </div>
     <div id="edit-q-list" style="display:flex;flex-direction:column;gap:10px;"></div>
@@ -2904,24 +2850,24 @@ function doLogout() {
 <div class="modal-overlay" id="modal-new-q" onclick="closeNewQuestionModal(event)">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">➕ Suggest a question</div>
+    <div class="modal-title">Add a question</div>
     <select class="modal-cat-select" id="new-q-cat">
-      <option value="Lifestyle">✨ Lifestyle</option>
-      <option value="Food">🍕 Food</option>
-      <option value="Love">💘 Love</option>
-      <option value="Music">🎵 Music</option>
-      <option value="Travel">✈️ Travel</option>
-      <option value="Culture">🎭 Culture</option>
-      <option value="Sports">⚽ Sports</option>
-      <option value="Values">🧭 Values</option>
-      <option value="People">🤝 People</option>
-      <option value="Future">🚀 Future</option>
+      <option value="Lifestyle">Lifestyle</option>
+      <option value="Food">Food</option>
+      <option value="Love">Love</option>
+      <option value="Music">Music</option>
+      <option value="Travel">Travel</option>
+      <option value="Culture">Culture</option>
+      <option value="Sports">Sports</option>
+      <option value="Values">Values</option>
+      <option value="People">People</option>
+      <option value="Future">Future</option>
     </select>
     <div class="modal-inputs-row">
-      <input class="modal-input" id="new-q-left" placeholder="🅰️ Option A" maxlength="30">
-      <input class="modal-input" id="new-q-right" placeholder="🅱️ Option B" maxlength="30">
+      <input class="modal-input" id="new-q-left" placeholder="Option A" maxlength="30">
+      <input class="modal-input" id="new-q-right" placeholder="Option B" maxlength="30">
     </div>
-    <button class="btn-primary" style="width:100%;" onclick="submitNewQuestion()">Add Question ✓</button>
+    <button class="btn-primary" style="width:100%;" onclick="submitNewQuestion()">Add Question</button>
   </div>
 </div>
 
