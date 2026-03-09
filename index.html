@@ -449,15 +449,6 @@
   }
   .drawer-item:hover { background: rgba(26,20,16,0.04); }
   .drawer-item.active { background: rgba(255,107,53,0.08); }
-  .drawer-icon {
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    background: var(--bg);
-    border: 1.5px solid rgba(26,20,16,0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
   .drawer-item-text { flex: 1; }
   .drawer-item-label {
     font-family: 'Syne', sans-serif;
@@ -1181,15 +1172,15 @@
   <!-- New action bar: Like / Skip / New Question -->
   <div class="action-bar">
     <div class="action-item" onclick="likeQuestion()">
-      <div class="action-circle" id="like-btn" style="font-family:'Syne',sans-serif;font-size:12px;font-weight:800;">LIKE</div>
+      <div class="action-circle" id="like-btn">👍</div>
       <div class="action-label">Nice one</div>
     </div>
     <div class="action-item skip-btn" onclick="answer('skip')">
-      <div class="action-circle" style="font-size:17px; font-weight:800; font-family:'Syne',sans-serif;">SKIP</div>
+      <div class="action-circle" style="font-size:17px; font-weight:800; font-family:'Syne',sans-serif;">>></div>
       <div class="action-label">Skip</div>
     </div>
     <div class="action-item" onclick="openNewQuestionModal()">
-      <div class="action-circle" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;">+</div>
+      <div class="action-circle">＋</div>
       <div class="action-label">New question</div>
     </div>
   </div>
@@ -1231,7 +1222,7 @@
       <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   </div>
-  <div class="match-title">⏳ Waiting for your match...</div>
+  <div class="match-title">Waiting for your match...</div>
   <div class="match-subtitle" style="max-width:320px">We'll show your results as soon as they finish answering!</div>
   
   <button class="btn-primary" onclick="checkMatch()" style="margin-top:24px;">Check Status</button>
@@ -1312,7 +1303,7 @@ const QUESTIONS = {
     {s:'The parking situation is impossible.', l:'Circle for 20 minutes', r:'Pay for the garage'},
     {s:'Six-pack or healthy relationship with food?', l:'Six-pack', r:'Healthy relationship with food'},
     {l:'Lots of sleep', r:'Function on less'},
-    {l:'⏰ Strict bedtime', r:'Sleep when tired'},
+    {l:'Strict bedtime', r:'Sleep when tired'},
     {s:'At night I\'ll put my phone', l:'In another room', r:'Next to the bed'},
     {l:'Naps make my day', r:'Naps ruin my day'},
     {s:"It's 3am and you can't sleep.", l:'Read something', r:'Scroll until unconscious'},
@@ -1325,7 +1316,7 @@ const QUESTIONS = {
     {l:'Split the bill', r:'I\'ll get it next time'},
     {s:'Your friend earns significantly more than you.', l:'Complicated feelings', r:'Completely fine'},
     {s:"You're offered a higher salary but worse work-life balance.", l:'Take it', r:'Leave it'},
-    {l:'⏸Work to live', r:'Live to work'},
+    {l:'Work to live', r:'Live to work'},
     {l:'Remote work forever', r:'Office has its place'},
     {l:'9-to-5 structure', r:'Flexible hours'},
     {l:'Side hustle', r:'One job is enough'},
@@ -1338,7 +1329,7 @@ const QUESTIONS = {
     {l:'Deep talks', r:'Easy banter'},
     {l:'Be the host', r:'Be the guest'},
     {l:'Hug hello', r:'Wave hello'},
-    {s:"There's a conflict.", l:'Address directly', r:'⏳ Wait for the right moment'},
+    {s:"There's a conflict.", l:'Address directly', r:'Wait for the right moment'},
     {l:'Give advice', r:'Just listen'},
     {l:'Stay in touch constantly', r:'Pick up where you left off'},
     {s:'Someone at the table is being rude to the waiter.', l:'Say something', r:'Say nothing'},
@@ -1401,26 +1392,110 @@ const QUESTIONS = {
     {s:'In the end, what matters more?', l:'Depth', r:'Breadth'},
   ],
   Food: [
-    {l:'Cooking', r:'Ordering in'},
-    {l:'Fancy restaurant', r:'Casual spot'},
-    {l:'Sushi', r:'Pizza'},
-    {l:'Black coffee', r:'Oat latte'},
-    {l:'Meat', r:'Vegetarian'},
-    {l:'Three courses', r:'Tapas to share'},
-    {l:'Scrambled eggs', r:'Fried eggs'},
+    {l:'Cooking at home', r:'Ordering in'},
+    {s:"It's 9am and you have nowhere to be.", l:'Sit-down brunch', r:'Coffee and gone'},
     {l:'Tea', r:'Coffee'},
-    {l:'Cookies', r:'Cake'},
+    {l:'Sushi', r:'Pizza'},
     {l:'Beer', r:'Wine'},
+    {l:'Scrambled eggs', r:'Fried eggs'},
+    {l:'Cookies', r:'Cake'},
+    {l:'Local food', r:'Global cuisine'},
+    {l:'Croissant', r:'Cigarette'},
     {l:'Thai', r:'Italian'},
+    {l:'Still', r:'Sparkling'},
+    {l:'Fish fingers', r:'Oysters'},
+    {l:'Meat', r:'Vegetarian'},
     {l:'Fast food', r:'Slow food'},
-    {l:'Savory', r:'Sweet'},
-    {l:'Croissant', r:'Bagel'},
-    {l:'Burger', r:'Tacos'},
-    {l:'Sparkling water', r:'Still water'},
-    {l:'Light meal', r:'Something filling'},
-    {l:'Very spicy', r:'Mild please'},
-    {l:'Chocolate', r:'Gummies'},
-    {l:'Home cooked', r:'Takeaway box'},
+    {s:'A sketchy cart on a side street. Smells incredible.', l:"Can't resist", r:'Hard pass'},
+    {s:'The avocado toast is €22.', l:'Order it anyway', r:'Make it at home and feel smug'},
+    {s:"The bill arrives. Nobody's moving.", l:'Split it exactly', r:"I'll get this one"},
+    {s:"You're hungover. It's bad.", l:"McDonald's", r:'Water and regret'},
+    {s:'The bread basket just landed.', l:'Pace yourself', r:"It's already gone"},
+    {s:"The spice level said medium. It's destroying you.", l:'Push through', r:'Tap out'},
+    {s:"There's one piece left on the table.", l:'Take it', r:'Leave it'},
+    {s:'The restaurant is fully booked.', l:'Find somewhere else', r:'Wait at the bar'},
+    {s:"Dinner party. The host's food is bad.", l:'Say nothing', r:'Say something'},
+    {s:'The tasting menu is 11 courses.', l:'Dream', r:'Nightmare'},
+    {s:"It's a BBQ. You're first in line.", l:'Straight to the meat', r:'Straight to the sides'},
+    {l:'Cooking is therapy', r:'Cooking is work'},
+    {l:'Meal plan for the week', r:'Figure it out daily'},
+    {l:'Let the food speak', r:'Hot sauce on everything'},
+    {l:'Eat the leftovers', r:'Order fresh'},
+    {l:'Reservations weeks ahead', r:'Walk in and wing it'},
+    {s:'Eating alone at a restaurant.', l:'Fine', r:'Mildly uncomfortable'},
+    {l:'Tapas to share', r:'Hands off my plate'},
+    {l:'Your usual', r:"The chef's special"},
+    {s:'Your cookbooks are for', l:'Cooking', r:'Looking good on the shelf'},
+    {s:'Grocery shopping.', l:'Get inspired', r:"Just what's on the list"},
+    {l:'Chopsticks', r:'Fork always'},
+    {s:'Should we order dessert?', l:'Always yes', r:"Only if it's worth it"},
+    {l:'Wine pairing suggestions', r:'House wine'},
+    {s:'Eating at', l:'the counter watching the chefs', r:'a proper table'},
+    {l:"Gordon Ramsay's restaurant", r:"Salt Bae's restaurant"},
+    {s:"You're cooking for someone you want to impress.", l:'Full three-course effort', r:'Order in and plate it nicely'},
+    {s:"Saturday morning. Let's go get groceries at the", l:'Farmers market', r:'Supermarket'},
+    {l:'Secret menu item', r:'The classic everyone orders'},
+    {l:'Espresso', r:'Americano'},
+    {l:'Natural wine', r:'Classic wine'},
+    {l:'Sourdough', r:'White bread'},
+    {l:'Spaghetti', r:'Linguine'},
+    {l:'Rosé', r:'Prosecco'},
+    {s:'My main meal is', l:'Lunch', r:'Dinner'},
+    {l:'Eat at the table', r:'Eat on the sofa'},
+    {l:'French cuisine', r:'Japanese cuisine'},
+    {l:'Olive oil', r:'Butter'},
+    {l:'Cook with music on', r:'Cook in silence'},
+    {l:'Ramen', r:'Pho'},
+    {l:'Steak', r:'Fish'},
+    {l:'Salad as a meal', r:'Salad as a side'},
+    {l:'Oat milk', r:'Cow milk'},
+    {s:'The restaurant has no menu. The chef decides.', l:"Let's go", r:"Let's not"},
+    {s:'The recipe says 200ml of wine.', l:'Measure exactly', r:'Measure intuitively'},
+    {s:"Your friend is 30 minutes late for dinner. You:", l:'Order', r:'Leave'},
+    {s:'Which wine?', l:'Let the waiter recommend', r:'Let me see the wine list'},
+    {s:'Plates arrive, the food looks beautiful.', l:'Get a good shot first', r:'Just dig in'},
+    {s:"You're in a new city for one night.", l:'Ask a local where to eat', r:'Check the reviews'},
+    {s:'The menu is only in the local language.', l:'Exciting', r:'Unsettling'},
+    {s:"You're in Spain. Dinner starts at 10pm.", l:"That's vacation", r:"That's starvation"},
+    {l:'Brunch', r:'Something quick'},
+    {l:'Eat seasonally', r:'What you want when you want'},
+    {l:'Sit outside whenever possible', r:'Inside always'},
+    {l:'Cook from memory', r:'Cook from a recipe'},
+    {l:'Negroni', r:'Aperol Spritz'},
+    {l:'Dim sum', r:'Mezze'},
+    {l:'Set menu', r:'À la carte'},
+    {l:'Eat with your hands', r:'Eat with cutlery'},
+    {l:'Indian', r:'Mexican'},
+    {l:"New place everyone's talking about", r:'Neighbourhood spot you love'},
+    {l:'Medium rare', r:'Well done'},
+    {l:'Food is fuel', r:'Food is pleasure'},
+    {s:"Your friend is doing a cleanse.", l:'Respect it', r:'Order the pizza anyway'},
+    {s:'The restaurant has a Michelin star. It shows in the bill.', l:'Worth every cent', r:'Instant regret'},
+    {s:"You cooked something new. It didn't work out.", l:'Order pizza', r:'Try to fix it'},
+    {s:'Open kitchen. Your friends are watching you cook.', l:'Heaven', r:'Hell'},
+    {s:'The dinner date picks a restaurant with no prices on the menu.', l:'Exciting', r:'Mildly stressful'},
+    {s:"A protein shake is technically a meal.", l:'Deeply sad', r:'Efficient'},
+    {s:'Your fridge has: leftover rice, spring onions, eggs.', l:'Make something good', r:'Order in'},
+    {s:"Dinner party. You said just bring yourself. Your friends bring:", l:'Wine', r:"A dish nobody asked for"},
+    {s:"You're eating alone. You:", l:'Proper meal anyway', r:'Crackers over the sink'},
+    {s:'A first date suggests cooking together at home.', l:'Intimate and fun', r:'Too much pressure'},
+    {s:'The menu is QR code only. No paper.', l:'Fine', r:'Not a fan'},
+    {s:"You went plant-based for January. It's January 14th.", l:'Still going', r:'The chorizo won'},
+    {s:'The chef comes to your table to explain the dish for three minutes.', l:'Please tell me more', r:'Please let me eat'},
+    {s:"It's a long lunch. Your afternoon is gone.", l:'Perfect Wednesday', r:'Mild guilt the whole time'},
+    {l:'Collagen in your coffee', r:'Hard no'},
+    {l:'Intermittent fasting', r:'Breakfast within 10 minutes of waking'},
+    {l:'Gut health is optional', r:'Gut health is important'},
+    {l:'Everyone brings a dish', r:'One person cooks everything'},
+    {s:'Food trends.', l:'Interested', r:"Don't care"},
+    {s:'You cooked a full meal. The kitchen looks like a crime scene.', l:'Feeling happy', r:'Feeling guilty'},
+    {s:"You're on a diet. Someone brings cake to the office.", l:'One slice, back on track tomorrow', r:'None. Discipline.'},
+    {s:"Something's left on your plate but you're not hungry any more.", l:'Leave it', r:'Finish it'},
+    {s:"There are things on the menu you don't understand.", l:'Ask the waiter', r:'Google it'},
+    {s:"The celebrity clearly used GLP-1. Won't admit it.", l:'Their business', r:'Just say it'},
+    {l:'Ugly food that tastes incredible', r:"Beautiful food that's average"},
+    {l:'Table dinner', r:'TV dinner'},
+    {l:'Tipping based on service', r:'Always tip same percentage'},
   ],
   Love: [
     {l:'Text first', r:'Call first'},
@@ -1428,7 +1503,7 @@ const QUESTIONS = {
     {l:'Stay in date', r:'Go out date'},
     {l:'Talk about feelings', r:'Show through actions'},
     {l:'PDA', r:'Keep it private'},
-    {l:'Give gifts', r:'⏱Give time'},
+    {l:'Give gifts', r:'Give time'},
     {l:'Move in together early', r:'Keep own place longer'},
     {l:'Constant texting', r:'Space to breathe'},
     {l:'Marriage', r:'Commitment without it'},
@@ -1536,7 +1611,7 @@ const QUESTIONS = {
     {l:'Security', r:'Freedom'},
     {l:'Roots & stability', r:'Change & adventure'},
     {l:'‍‍Family first', r:'Self first'},
-    {l:'Career driven', r:'⏸Work to live'},
+    {l:'Career driven', r:'Work to live'},
     {l:'Financial success', r:'Personal happiness'},
     {l:'Environment first', r:'Progress first'},
     {l:'Loyalty above all', r:'Honesty above all'},
@@ -1696,8 +1771,7 @@ function startQuiz() {
   } else if (currentCat === 'Popular') {
     questions = shuffleSides(getPopularQuestions());
   } else {
-    const picked = [...QUESTIONS[currentCat]].sort(() => Math.random() - 0.5).slice(0, Math.min(30, QUESTIONS[currentCat].length));
-    questions = shuffleSides(picked);
+    questions = shuffleSides(getPaddedQuestions(currentCat, 30));
   }
 
   currentIdx = 0;
@@ -1708,6 +1782,19 @@ function startQuiz() {
   document.getElementById('quiz-cat-label').textContent = currentCat;
   renderQuestion();
   show('screen-quiz');
+}
+
+// Get 30 questions from a category, repeating if needed
+function getPaddedQuestions(cat, count) {
+  const src = QUESTIONS[cat] || [];
+  if (src.length === 0) return [];
+  const shuffled = [...src].sort(() => Math.random() - 0.5);
+  const result = [];
+  while (result.length < count) {
+    const batch = [...shuffled].sort(() => Math.random() - 0.5);
+    result.push(...batch);
+  }
+  return result.slice(0, count);
 }
 
 // ========== QUIZ LOGIC ==========
@@ -2161,10 +2248,12 @@ function submitNewQuestion() {
     saved[cat].push(newQ);
     localStorage.setItem('custom_questions', JSON.stringify(saved));
   } catch(e) {}
-  // Inject as next question, trim from end to keep total at 20
+  // Inject as next question, remove the last question to keep total the same
   if (questions.length > 0 && currentIdx < questions.length) {
     questions.splice(currentIdx + 1, 0, newQ);
-    if (questions.length > 30) questions.splice(30, questions.length - 30);
+    if (questions.length > questions._originalLength || true) {
+      questions.splice(questions.length - 1, 1);
+    }
   }
   closeNewQuestionModal();
   showToast('Question added — comes up next!');
@@ -2662,10 +2751,8 @@ function doLogout() {
   </div>
 
   <nav class="drawer-nav">
-    <div class="drawer-section-title">Menu</div>
 
     <div class="drawer-item active" onclick="navTo('home')">
-      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">HOME</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Home</div>
         <div class="drawer-item-sub">Pick a category & play</div>
@@ -2673,7 +2760,6 @@ function doLogout() {
     </div>
 
     <div class="drawer-item" onclick="navTo('matches')">
-      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">MATCH</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Matches</div>
         <div class="drawer-item-sub">Your match history</div>
@@ -2682,7 +2768,6 @@ function doLogout() {
     </div>
 
     <div class="drawer-item" onclick="navTo('messages')">
-      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">MSG</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Messages</div>
         <div class="drawer-item-sub">Chat with your matches</div>
@@ -2690,10 +2775,7 @@ function doLogout() {
       <div class="drawer-badge" id="msg-badge" style="display:none;">2</div>
     </div>
 
-    <div class="drawer-section-title" style="margin-top:8px;">More</div>
-
     <div class="drawer-item" onclick="navTo('settings')">
-      <div class="drawer-icon" style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.5px;">SET</div>
       <div class="drawer-item-text">
         <div class="drawer-item-label">Settings</div>
         <div class="drawer-item-sub">Notifications, account…</div>
