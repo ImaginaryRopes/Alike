@@ -240,7 +240,7 @@
     text-align: center;
     padding: 20px 12px;
     border-radius: 16px;
-    border: 1px solid #1A1410;
+    border: 2px solid #1A1410;
     transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
     position: relative;
     overflow: hidden;
@@ -248,8 +248,13 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .opt:hover {
-    border-color: rgba(26,20,16,0.3);
+  .opt:hover .opt-text {
+    font-weight: 700;
+  }
+  .opt.chosen-left .opt-text,
+  .opt.chosen-right .opt-text {
+    font-weight: 700;
+  }
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(26,20,16,0.08);
   }
@@ -1183,13 +1188,6 @@
 
 <!-- SHARE SCREEN (Person A invites Person B) -->
 <div class="screen hidden" id="screen-share">
-  <div class="logo-mark" style="margin-bottom:20px">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14" cy="14" r="7" fill="#FFD166"/>
-      <circle cx="26" cy="26" r="7" fill="#FF6B35"/>
-      <path d="M14 21 C14 21 18 26 26 19" stroke="#FFFDF8" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-  </div>
   <div class="match-title" id="share-screen-title">Questions Complete.</div>
   <div class="match-subtitle" style="max-width:320px" id="share-screen-sub">You've answered all questions. Now invite a friend to see how you match!</div>
 
@@ -1762,11 +1760,11 @@ function startQuiz() {
   currentCat = document.querySelector('.cat-chip.active')?.dataset.cat || 'Lifestyle';
   
   if (currentCat === 'Random') {
-    questions = getRandomQuestions();
+    questions = interleaveSetupQuestions(getRandomQuestions());
   } else if (currentCat === 'Popular') {
-    questions = shuffleSides(getPopularQuestions());
+    questions = interleaveSetupQuestions(shuffleSides(getPopularQuestions()));
   } else {
-    questions = shuffleSides(getPaddedQuestions(currentCat, 30));
+    questions = interleaveSetupQuestions(shuffleSides(getPaddedQuestions(currentCat, 30)));
   }
 
   currentIdx = 0;
@@ -1777,6 +1775,33 @@ function startQuiz() {
   document.getElementById('quiz-cat-label').textContent = currentCat;
   renderQuestion();
   show('screen-quiz');
+}
+
+// Ensure a setup question appears at least every 3 questions
+function interleaveSetupQuestions(qs) {
+  const withSetup = qs.filter(q => q.s);
+  const withoutSetup = qs.filter(q => !q.s);
+  const result = [];
+  let noSetupStreak = 0;
+  let setupPool = [...withSetup].sort(() => Math.random() - 0.5);
+  let plainPool = [...withoutSetup].sort(() => Math.random() - 0.5);
+
+  while (result.length < qs.length) {
+    const needSetup = noSetupStreak >= 2 && setupPool.length > 0;
+    if (needSetup) {
+      result.push(setupPool.shift());
+      noSetupStreak = 0;
+    } else if (plainPool.length > 0 && (setupPool.length === 0 || Math.random() > 0.35)) {
+      result.push(plainPool.shift());
+      noSetupStreak++;
+    } else if (setupPool.length > 0) {
+      result.push(setupPool.shift());
+      noSetupStreak = 0;
+    } else {
+      break;
+    }
+  }
+  return result;
 }
 
 // Get 30 questions from a category, repeating if needed
